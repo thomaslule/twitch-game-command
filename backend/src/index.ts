@@ -1,15 +1,15 @@
 import { readFileSync } from "fs";
 import { Config } from "./Config";
-import { DescriptionsStore } from "./DescriptionsStore";
 import { getCommandHandler } from "./getCommandHandler";
 import { HttpServer } from "./HttpServer";
+import { Store } from "./Store";
 import { Twitch } from "./Twitch";
 
 const config = JSON.parse(
   readFileSync(__dirname + "/local-config.json", "utf8")
 ) as Config;
 
-const store = new DescriptionsStore();
+const store = new Store();
 const server = new HttpServer(store);
 const twitch = new Twitch(config);
 

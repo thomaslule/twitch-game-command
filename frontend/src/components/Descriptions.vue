@@ -1,9 +1,14 @@
 <template>
-  <div v-if="descriptions">
+  <div v-if="loaded">
     <button v-on:click="update">Update</button>
     <ul>
+      <li>
+        Default text
+        <br />
+        <textarea v-model="data.defaultText" />
+      </li>
       <li
-        v-for="(description, index) in descriptions"
+        v-for="(description, index) in data.descriptions"
         :key="`description-${index}`"
       >
         <input v-model="description.game" />
@@ -22,31 +27,43 @@ import { Component, Vue } from "vue-property-decorator";
 
 @Component
 export default class Descriptions extends Vue {
-  public descriptions = [{ game: "Game 1", text: "description 1" }];
+  public data: Data = { defaultText: "", descriptions: [] };
+  public loaded = false;
 
   public mounted() {
     fetch("http://localhost:3000/descriptions")
       .then((res) => res.json())
-      .then((descriptions) => {
-        this.descriptions = descriptions;
+      .then((data) => {
+        this.data = data;
+        this.loaded = true;
       })
       .catch((err) => console.error(err));
   }
 
   public deleteLine(index: number) {
-    this.descriptions.splice(index, 1);
+    this.data.descriptions.splice(index, 1);
   }
 
   public addLine() {
-    this.descriptions = this.descriptions.concat({ game: "", text: "" });
+    this.data.descriptions.push({ game: "", text: "" });
   }
 
   public update() {
     fetch("http://localhost:3000/descriptions", {
       method: "POST",
       headers: { "Content-Type": "application/json" },
-      body: JSON.stringify(this.descriptions),
+      body: JSON.stringify(this.data),
     }).catch((err) => console.error(err));
   }
+}
+
+interface Data {
+  defaultText: string;
+  descriptions: Description[];
+}
+
+interface Description {
+  game: string;
+  text: string;
 }
 </script>

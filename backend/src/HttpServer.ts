@@ -2,12 +2,12 @@ import cors from "@koa/cors";
 import Koa from "koa";
 import bodyParser from "koa-bodyparser";
 import route from "koa-route";
-import { DescriptionsStore } from "./DescriptionsStore";
+import { Store } from "./Store";
 
 export class HttpServer {
   private app = new Koa();
 
-  public constructor(store: DescriptionsStore) {
+  public constructor(store: Store) {
     this.app.use(cors());
     this.app.use(bodyParser());
 
@@ -20,7 +20,7 @@ export class HttpServer {
 
     this.app.use(
       route.get("/descriptions", async (context) => {
-        context.body = store.getAll();
+        context.body = store.get();
       })
     );
   }
