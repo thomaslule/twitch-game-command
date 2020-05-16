@@ -1,24 +1,24 @@
 export class Store {
-  private stored: StoredData = {
-    defaultText: "",
-    descriptions: [],
+  private stored: Descriptions = {
+    defaultDescription: "",
+    gameDescriptions: [],
   };
 
   public get() {
     return this.stored;
   }
 
-  public set(data: StoredData) {
+  public set(data: Descriptions) {
     this.stored = data;
   }
 }
 
-export interface StoredData {
-  defaultText: string;
-  descriptions: Description[];
+export interface Descriptions {
+  defaultDescription: string;
+  gameDescriptions: GameDescription[];
 }
 
-export interface Description {
+export interface GameDescription {
   game: string;
-  text: string;
+  description: string;
 }

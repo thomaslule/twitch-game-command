@@ -5,15 +5,15 @@
       <li>
         Default text
         <br />
-        <textarea v-model="data.defaultText" />
+        <textarea v-model="descriptions.defaultDescription" />
       </li>
       <li
-        v-for="(description, index) in data.descriptions"
-        :key="`description-${index}`"
+        v-for="(gameDescription, index) in descriptions.gameDescriptions"
+        :key="`gameDescription-${index}`"
       >
-        <input v-model="description.game" />
+        <input v-model="gameDescription.game" />
         <br />
-        <textarea v-model="description.text" />
+        <textarea v-model="gameDescription.text" />
         <br />
         <button v-on:click="deleteLine(index)">Delete</button>
       </li>
@@ -26,44 +26,47 @@
 import { Component, Vue } from "vue-property-decorator";
 
 @Component
-export default class Descriptions extends Vue {
-  public data: Data = { defaultText: "", descriptions: [] };
+export default class DescriptionsForm extends Vue {
+  public descriptions: Descriptions = {
+    defaultDescription: "",
+    gameDescriptions: [],
+  };
   public loaded = false;
 
   public mounted() {
     fetch("http://localhost:3000/descriptions")
       .then((res) => res.json())
-      .then((data) => {
-        this.data = data;
+      .then((descriptions) => {
+        this.descriptions = descriptions;
         this.loaded = true;
       })
       .catch((err) => console.error(err));
   }
 
   public deleteLine(index: number) {
-    this.data.descriptions.splice(index, 1);
+    this.descriptions.gameDescriptions.splice(index, 1);
   }
 
   public addLine() {
-    this.data.descriptions.push({ game: "", text: "" });
+    this.descriptions.gameDescriptions.push({ game: "", description: "" });
   }
 
   public update() {
     fetch("http://localhost:3000/descriptions", {
       method: "POST",
       headers: { "Content-Type": "application/json" },
-      body: JSON.stringify(this.data),
+      body: JSON.stringify(this.descriptions),
     }).catch((err) => console.error(err));
   }
 }
 
-interface Data {
-  defaultText: string;
-  descriptions: Description[];
+interface Descriptions {
+  defaultDescription: string;
+  gameDescriptions: GameDescription[];
 }
 
-interface Description {
+interface GameDescription {
   game: string;
-  text: string;
+  description: string;
 }
 </script>
