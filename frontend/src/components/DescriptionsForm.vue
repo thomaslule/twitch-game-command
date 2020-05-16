@@ -24,6 +24,7 @@
 
 <script lang="ts">
 import { Component, Vue } from "vue-property-decorator";
+import { Descriptions, getDescriptions, postDescriptions } from "../api";
 
 @Component
 export default class DescriptionsForm extends Vue {
@@ -33,14 +34,14 @@ export default class DescriptionsForm extends Vue {
   };
   public loaded = false;
 
-  public mounted() {
-    fetch("http://localhost:3000/descriptions")
-      .then((res) => res.json())
-      .then((descriptions) => {
-        this.descriptions = descriptions;
-        this.loaded = true;
-      })
-      .catch((err) => console.error(err));
+  public async mounted() {
+    try {
+      const descriptions = await getDescriptions();
+      this.descriptions = descriptions;
+      this.loaded = true;
+    } catch (error) {
+      console.error(error);
+    }
   }
 
   public deleteLine(index: number) {
@@ -51,22 +52,12 @@ export default class DescriptionsForm extends Vue {
     this.descriptions.gameDescriptions.push({ game: "", description: "" });
   }
 
-  public update() {
-    fetch("http://localhost:3000/descriptions", {
-      method: "POST",
-      headers: { "Content-Type": "application/json" },
-      body: JSON.stringify(this.descriptions),
-    }).catch((err) => console.error(err));
+  public async update() {
+    try {
+      await postDescriptions(this.descriptions);
+    } catch (error) {
+      console.error(error);
+    }
   }
-}
-
-interface Descriptions {
-  defaultDescription: string;
-  gameDescriptions: GameDescription[];
-}
-
-interface GameDescription {
-  game: string;
-  description: string;
 }
 </script>

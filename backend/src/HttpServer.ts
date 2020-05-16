@@ -2,14 +2,30 @@ import cors from "@koa/cors";
 import Koa from "koa";
 import bodyParser from "koa-bodyparser";
 import route from "koa-route";
+import { Config } from "./Config";
+import { getAuthenticationMiddleware } from "./getAuthenticationMiddleware";
 import { Store } from "./Store";
 
 export class HttpServer {
   private app = new Koa();
 
-  public constructor(store: Store) {
+  public constructor(store: Store, config: Config) {
     this.app.use(cors());
     this.app.use(bodyParser());
+
+    this.app.use(
+      route.get("/clientId", (context) => {
+        context.body = { clientId: config.client_id };
+      })
+    );
+
+    this.app.use(getAuthenticationMiddleware(config));
+
+    this.app.use(
+      route.get("/checkToken", (context) => {
+        context.status = 204;
+      })
+    );
 
     this.app.use(
       route.post("/descriptions", async (context) => {

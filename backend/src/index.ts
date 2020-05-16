@@ -10,7 +10,7 @@ const config = JSON.parse(
 ) as Config;
 
 const store = new Store();
-const server = new HttpServer(store);
+const server = new HttpServer(store, config);
 const twitch = new Twitch(config);
 
 twitch.onCommand(getCommandHandler(twitch, store));

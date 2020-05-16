@@ -1,19 +1,28 @@
 <template>
   <div id="app">
-    <DescriptionsForm />
+    <Login v-if="!authenticated" />
+    <Logout v-if="authenticated" />
+    <DescriptionsForm v-if="authenticated" />
   </div>
 </template>
 
 <script lang="ts">
 import { Component, Vue } from "vue-property-decorator";
+import Login from "./components/Login.vue";
+import Logout from "./components/Logout.vue";
 import DescriptionsForm from "./components/DescriptionsForm.vue";
+import { isAuthenticated } from "./auth";
 
 @Component({
   components: {
+    Login,
+    Logout,
     DescriptionsForm,
   },
 })
-export default class App extends Vue {}
+export default class App extends Vue {
+  public authenticated = isAuthenticated();
+}
 </script>
 
 <style>

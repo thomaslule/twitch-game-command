@@ -6,4 +6,5 @@ export interface Config {
   client_secret: string;
   command: string;
   port: number;
+  logins: string[];
 }
