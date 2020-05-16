@@ -1,4 +1,5 @@
 import { promises } from "fs";
+import { Config } from "./Config";
 
 export class Store {
   private cache: Config | undefined;
@@ -27,14 +28,4 @@ export class Store {
       await this.set({ defaultDescription: "", gameDescriptions: [] });
     }
   }
-}
-
-export interface Config {
-  defaultDescription: string;
-  gameDescriptions: GameDescription[];
-}
-
-export interface GameDescription {
-  game: string;
-  description: string;
 }
