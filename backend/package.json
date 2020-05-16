@@ -23,6 +23,7 @@
     "typescript": "^3.9.2"
   },
   "dependencies": {
+    "twitch": "^4.0.9",
     "twitch-channel": "^0.4.5"
   }
 }
