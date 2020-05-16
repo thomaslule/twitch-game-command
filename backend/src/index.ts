@@ -1,60 +1,57 @@
 import { readFileSync } from "fs";
+import { Client } from "tmi.js";
 import TwitchClient from "twitch";
-import { TwitchChannel } from "twitch-channel";
 
 const config = JSON.parse(
   readFileSync(__dirname + "/local-config.json", "utf8")
 );
 
-const channel = new TwitchChannel({
-  channel: config.channel,
-  bot_name: config.bot_name,
-  bot_token: config.bot_token,
-  client_id: config.client_id,
-  client_secret: config.client_secret,
-  port: config.port,
-  callback_url: config.callback_url,
-  secret: config.secret,
-});
 const twitchClient = TwitchClient.withClientCredentials(
   config.client_id,
   config.client_secret
 );
-let currentGame: string | undefined;
+const bot = Client({
+  channels: [config.channel],
+  identity: {
+    username: config.bot_name,
+    password: config.bot_token,
+  },
+  options: { debug: false },
+  connection: { reconnect: true },
+});
 
-channel.on("debug", (msg) => console.log(msg));
-channel.on("info", (msg) => console.log(msg));
-channel.on("error", (err) => console.error(err));
-
-channel.on("chat", ({ message }) => {
-  if (message.startsWith(config.command)) {
-    channel.say(currentGame ? currentGame : "no current game");
+bot.on("chat", async (channel, userstate, message, self) => {
+  try {
+    if (self) {
+      return;
+    }
+    if (message.startsWith(config.command)) {
+      const currentGame = await getCurrentGame();
+      bot.say(
+        `#${config.channel}`,
+        currentGame ? currentGame : "no current game"
+      );
+    }
+  } catch (err) {
+    console.error(err);
   }
-});
-channel.on("stream-begin", ({ game }) => {
-  console.log("stream-begin", game);
-  currentGame = game;
-});
-channel.on("stream-change-game", ({ game }) => {
-  console.log("stream-change-game", game);
-  currentGame = game;
-});
-channel.on("stream-end", () => {
-  console.log("stream-end");
-  currentGame = undefined;
 });
 
 async function start() {
-  await channel.connect();
+  await bot.connect();
+}
+
+async function getCurrentGame() {
   const stream = await twitchClient.helix.streams.getStreamByUserName(
     config.channel
   );
   if (stream) {
     const game = await stream.getGame();
     if (game) {
-      currentGame = game.name;
+      return game.name;
     }
   }
+  return undefined;
 }
 
 start().catch((err) => {
