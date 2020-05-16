@@ -6,8 +6,11 @@
         <input v-model="description.game" />
         <br />
         <textarea v-model="description.text" />
+        <br />
+        <button v-on:click="deleteLine(description.game)">Delete</button>
       </li>
     </ul>
+    <button v-on:click="addLine">Add</button>
   </div>
 </template>
 
@@ -25,6 +28,16 @@ export default class Descriptions extends Vue {
         this.descriptions = descriptions;
       })
       .catch((err) => console.error(err));
+  }
+
+  public deleteLine(game: string) {
+    this.descriptions = this.descriptions.filter(
+      (description) => description.game !== game
+    );
+  }
+
+  public addLine() {
+    this.descriptions = this.descriptions.concat({ game: "", text: "" });
   }
 
   public update() {
