@@ -1,23 +1,23 @@
 import { readFileSync } from "fs";
-import { Config } from "./Config";
 import { getCommandHandler } from "./getCommandHandler";
 import { HttpServer } from "./HttpServer";
+import { Options } from "./Options";
 import { Store } from "./Store";
 import { Twitch } from "./Twitch";
 
-const config = JSON.parse(
+const options = JSON.parse(
   readFileSync(__dirname + "/local-config.json", "utf8")
-) as Config;
+) as Options;
 
 const store = new Store();
-const server = new HttpServer(store, config);
-const twitch = new Twitch(config);
+const server = new HttpServer(store, options);
+const twitch = new Twitch(options);
 
 twitch.onCommand(getCommandHandler(twitch, store));
 
 async function start() {
   await twitch.connect();
-  server.listen(config.port);
+  server.listen(options.port);
 }
 
 start().catch((err) => {

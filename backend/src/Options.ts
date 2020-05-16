@@ -1,4 +1,4 @@
-export interface Config {
+export interface Options {
   channel: string;
   bot_name: string;
   bot_token: string;

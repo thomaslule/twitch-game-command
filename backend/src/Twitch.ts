@@ -1,21 +1,21 @@
 import { Client } from "tmi.js";
 import TwitchClient from "twitch";
-import { Config } from "./Config";
+import { Options } from "./Options";
 
 export class Twitch {
   private apiClient: TwitchClient;
   private chatBot: Client;
 
-  public constructor(private config: Config) {
+  public constructor(private options: Options) {
     this.apiClient = TwitchClient.withClientCredentials(
-      config.client_id,
-      config.client_secret
+      options.client_id,
+      options.client_secret
     );
     this.chatBot = Client({
-      channels: [config.channel],
+      channels: [options.channel],
       identity: {
-        username: config.bot_name,
-        password: config.bot_token,
+        username: options.bot_name,
+        password: options.bot_token,
       },
       options: { debug: false },
       connection: { reconnect: true },
@@ -31,19 +31,19 @@ export class Twitch {
       if (self) {
         return;
       }
-      if (message.startsWith(this.config.command)) {
+      if (message.startsWith(this.options.command)) {
         handler();
       }
     });
   }
 
   public say(message: string) {
-    this.chatBot.say(`#${this.config.channel}`, message);
+    this.chatBot.say(`#${this.options.channel}`, message);
   }
 
   public async getCurrentGame() {
     const stream = await this.apiClient.helix.streams.getStreamByUserName(
-      this.config.channel
+      this.options.channel
     );
     if (stream) {
       const game = await stream.getGame();

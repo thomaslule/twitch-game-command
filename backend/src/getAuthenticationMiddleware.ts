@@ -1,8 +1,8 @@
 import { Context, Next } from "koa";
 import fetch from "node-fetch";
-import { Config } from "./Config";
+import { Options } from "./Options";
 
-export function getAuthenticationMiddleware(config: Config) {
+export function getAuthenticationMiddleware(options: Options) {
   async function authenticationMiddleware(context: Context, next: Next) {
     const authorization = context.get("Authorization");
     if (authorization === "") {
@@ -17,7 +17,7 @@ export function getAuthenticationMiddleware(config: Config) {
       return;
     }
     const login = userResponse.login.toLowerCase();
-    if (!config.logins.map((login) => login.toLowerCase()).includes(login)) {
+    if (!options.logins.map((login) => login.toLowerCase()).includes(login)) {
       context.status = 403;
       context.body = { error: `Login ${login} not authorized` };
       return;
