@@ -5,7 +5,7 @@ export function getCommandHandler(twitch: Twitch, store: Store) {
   return async () => {
     try {
       const currentGame = await twitch.getCurrentGame();
-      const allDescriptions = store.get();
+      const allDescriptions = await store.get();
       const gameDescription = allDescriptions.gameDescriptions.find(
         (description) => description.game === currentGame
       );

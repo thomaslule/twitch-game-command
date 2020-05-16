@@ -13,14 +13,14 @@ export class HttpServer {
 
     this.app.use(
       route.post("/descriptions", async (context) => {
-        store.set(context.request.body);
+        await store.set(context.request.body);
         context.status = 200;
       })
     );
 
     this.app.use(
       route.get("/descriptions", async (context) => {
-        context.body = store.get();
+        context.body = await store.get();
       })
     );
   }
