@@ -1,13 +1,21 @@
 export class DescriptionsStore {
-  private descriptions: Descriptions = {};
+  private descriptions: Description[] = [];
 
-  public get() {
+  public getAll() {
     return this.descriptions;
   }
 
-  public set(descriptions: Descriptions) {
+  public get(game: string) {
+    return this.descriptions.find((description) => description.game === game)
+      ?.text;
+  }
+
+  public set(descriptions: Description[]) {
     this.descriptions = descriptions;
   }
 }
 
-export type Descriptions = { [x: string]: string };
+export interface Description {
+  game: string;
+  text: string;
+}

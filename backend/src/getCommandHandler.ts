@@ -6,8 +6,9 @@ export function getCommandHandler(twitch: Twitch, store: DescriptionsStore) {
     try {
       const currentGame = await twitch.getCurrentGame();
       if (currentGame) {
-        if (store.get()[currentGame]) {
-          twitch.say(store.get()[currentGame]);
+        const description = store.get(currentGame);
+        if (description) {
+          twitch.say(description);
         } else {
           twitch.say("no description for this game");
         }
