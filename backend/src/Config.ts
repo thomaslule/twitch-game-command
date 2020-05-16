@@ -5,4 +5,5 @@ export interface Config {
   client_id: string;
   client_secret: string;
   command: string;
+  port: number;
 }
