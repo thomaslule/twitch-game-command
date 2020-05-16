@@ -5,10 +5,10 @@
       <li>
         Default text
         <br />
-        <textarea v-model="descriptions.defaultDescription" />
+        <textarea v-model="config.defaultDescription" />
       </li>
       <li
-        v-for="(gameDescription, index) in descriptions.gameDescriptions"
+        v-for="(gameDescription, index) in config.gameDescriptions"
         :key="`gameDescription-${index}`"
       >
         <input v-model="gameDescription.game" />
@@ -24,11 +24,11 @@
 
 <script lang="ts">
 import { Component, Vue } from "vue-property-decorator";
-import { Descriptions, getDescriptions, postDescriptions } from "../api";
+import { Config, getConfig, postConfig } from "../api";
 
 @Component
-export default class DescriptionsForm extends Vue {
-  public descriptions: Descriptions = {
+export default class ConfigForm extends Vue {
+  public config: Config = {
     defaultDescription: "",
     gameDescriptions: [],
   };
@@ -36,8 +36,8 @@ export default class DescriptionsForm extends Vue {
 
   public async mounted() {
     try {
-      const descriptions = await getDescriptions();
-      this.descriptions = descriptions;
+      const descriptions = await getConfig();
+      this.config = descriptions;
       this.loaded = true;
     } catch (error) {
       console.error(error);
@@ -45,16 +45,16 @@ export default class DescriptionsForm extends Vue {
   }
 
   public deleteLine(index: number) {
-    this.descriptions.gameDescriptions.splice(index, 1);
+    this.config.gameDescriptions.splice(index, 1);
   }
 
   public addLine() {
-    this.descriptions.gameDescriptions.push({ game: "", description: "" });
+    this.config.gameDescriptions.push({ game: "", description: "" });
   }
 
   public async update() {
     try {
-      await postDescriptions(this.descriptions);
+      await postConfig(this.config);
     } catch (error) {
       console.error(error);
     }

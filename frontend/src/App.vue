@@ -2,7 +2,7 @@
   <div id="app">
     <Login v-if="!authenticated" />
     <Logout v-if="authenticated" />
-    <DescriptionsForm v-if="authenticated" />
+    <ConfigForm v-if="authenticated" />
   </div>
 </template>
 
@@ -10,14 +10,14 @@
 import { Component, Vue } from "vue-property-decorator";
 import Login from "./components/Login.vue";
 import Logout from "./components/Logout.vue";
-import DescriptionsForm from "./components/DescriptionsForm.vue";
+import ConfigForm from "./components/ConfigForm.vue";
 import { isAuthenticated } from "./auth";
 
 @Component({
   components: {
     Login,
     Logout,
-    DescriptionsForm,
+    ConfigForm,
   },
 })
 export default class App extends Vue {

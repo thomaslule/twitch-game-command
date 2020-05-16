@@ -28,14 +28,14 @@ export class HttpServer {
     );
 
     this.app.use(
-      route.post("/descriptions", async (context) => {
+      route.post("/config", async (context) => {
         await store.set(context.request.body);
         context.status = 200;
       })
     );
 
     this.app.use(
-      route.get("/descriptions", async (context) => {
+      route.get("/config", async (context) => {
         context.body = await store.get();
       })
     );

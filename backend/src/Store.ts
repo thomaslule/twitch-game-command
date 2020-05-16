@@ -1,16 +1,16 @@
 import { promises } from "fs";
 
 export class Store {
-  private cache: Descriptions | undefined;
+  private cache: Config | undefined;
 
-  public async get(): Promise<Descriptions> {
+  public async get(): Promise<Config> {
     if (this.cache === undefined) {
       await this.initCache();
     }
     return this.cache!;
   }
 
-  public async set(data: Descriptions) {
+  public async set(data: Config) {
     this.cache = data;
     await promises.writeFile(
       "./stored/save",
@@ -29,7 +29,7 @@ export class Store {
   }
 }
 
-export interface Descriptions {
+export interface Config {
   defaultDescription: string;
   gameDescriptions: GameDescription[];
 }

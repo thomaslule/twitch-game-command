@@ -1,11 +1,11 @@
 import { getToken, logout } from "./auth";
 
-export async function getDescriptions(): Promise<Descriptions> {
-  return await get("descriptions");
+export async function getConfig(): Promise<Config> {
+  return await get("config");
 }
 
-export async function postDescriptions(descriptions: Descriptions) {
-  await post("descriptions", descriptions);
+export async function postConfig(descriptions: Config) {
+  await post("config", descriptions);
 }
 
 export async function getClientId(): Promise<string> {
@@ -35,7 +35,6 @@ async function post(path: string, body: object) {
     body: JSON.stringify(body),
   });
   await handleError(res);
-  return await res.json();
 }
 
 async function handleError(res: Response) {
@@ -47,7 +46,7 @@ async function handleError(res: Response) {
   }
 }
 
-export interface Descriptions {
+export interface Config {
   defaultDescription: string;
   gameDescriptions: GameDescription[];
 }
