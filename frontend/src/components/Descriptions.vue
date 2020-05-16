@@ -20,15 +20,19 @@ export default class Descriptions extends Vue {
 
   public mounted() {
     fetch("http://localhost:3000/descriptions")
-      .then(res => res.json())
-      .then(descriptions => {
+      .then((res) => res.json())
+      .then((descriptions) => {
         this.descriptions = descriptions;
       })
-      .catch(err => console.error(err));
+      .catch((err) => console.error(err));
   }
 
   public update() {
-    console.log(this.descriptions[0].game, this.descriptions[0].text);
+    fetch("http://localhost:3000/descriptions", {
+      method: "POST",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify(this.descriptions),
+    }).catch((err) => console.error(err));
   }
 }
 </script>
