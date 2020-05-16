@@ -10,8 +10,8 @@ import Descriptions from "./components/Descriptions.vue";
 
 @Component({
   components: {
-    Descriptions
-  }
+    Descriptions,
+  },
 })
 export default class App extends Vue {}
 </script>
