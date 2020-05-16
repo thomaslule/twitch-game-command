@@ -1,4 +1,5 @@
 export interface Config {
+  command: string;
   defaultDescription: string;
   gameDescriptions: GameDescription[];
 }

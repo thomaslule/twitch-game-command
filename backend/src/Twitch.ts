@@ -26,14 +26,12 @@ export class Twitch {
     await this.chatBot.connect();
   }
 
-  public onCommand(handler: () => void) {
+  public onMessage(handler: (message: string) => void) {
     this.chatBot.on("chat", (channel, userstate, message, self) => {
       if (self) {
         return;
       }
-      if (message.startsWith(this.options.command)) {
-        handler();
-      }
+      handler(message);
     });
   }
 

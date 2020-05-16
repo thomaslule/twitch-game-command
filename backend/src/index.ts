@@ -13,7 +13,7 @@ const store = new Store();
 const server = new HttpServer(store, options);
 const twitch = new Twitch(options);
 
-twitch.onCommand(getCommandHandler(twitch, store));
+twitch.onMessage(getCommandHandler(twitch, store));
 
 async function start() {
   await twitch.connect();

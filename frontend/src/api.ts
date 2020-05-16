@@ -47,6 +47,7 @@ async function handleError(res: Response) {
 }
 
 export interface Config {
+  command: string;
   defaultDescription: string;
   gameDescriptions: GameDescription[];
 }

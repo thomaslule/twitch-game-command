@@ -25,7 +25,11 @@ export class Store {
       const json = await promises.readFile("./stored/save", "utf8");
       this.cache = JSON.parse(json);
     } catch (error) {
-      await this.set({ defaultDescription: "", gameDescriptions: [] });
+      await this.set({
+        command: "",
+        defaultDescription: "",
+        gameDescriptions: [],
+      });
     }
   }
 }

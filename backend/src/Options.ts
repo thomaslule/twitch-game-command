@@ -4,7 +4,6 @@ export interface Options {
   bot_token: string;
   client_id: string;
   client_secret: string;
-  command: string;
   port: number;
   logins: string[];
 }

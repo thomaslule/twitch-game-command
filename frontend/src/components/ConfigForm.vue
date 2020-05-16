@@ -1,6 +1,8 @@
 <template>
   <div v-if="loaded">
     <button v-on:click="update">Update</button>
+    <br />
+    Command <input v-model="config.command" />
     <ul>
       <li>
         Default text
@@ -29,6 +31,7 @@ import { Config, getConfig, postConfig } from "../api";
 @Component
 export default class ConfigForm extends Vue {
   public config: Config = {
+    command: "",
     defaultDescription: "",
     gameDescriptions: [],
   };
@@ -36,8 +39,7 @@ export default class ConfigForm extends Vue {
 
   public async mounted() {
     try {
-      const descriptions = await getConfig();
-      this.config = descriptions;
+      this.config = await getConfig();
       this.loaded = true;
     } catch (error) {
       console.error(error);
