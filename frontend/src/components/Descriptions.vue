@@ -2,12 +2,15 @@
   <div v-if="descriptions">
     <button v-on:click="update">Update</button>
     <ul>
-      <li v-for="description in descriptions" :key="description.game">
+      <li
+        v-for="(description, index) in descriptions"
+        :key="`description-${index}`"
+      >
         <input v-model="description.game" />
         <br />
         <textarea v-model="description.text" />
         <br />
-        <button v-on:click="deleteLine(description.game)">Delete</button>
+        <button v-on:click="deleteLine(index)">Delete</button>
       </li>
     </ul>
     <button v-on:click="addLine">Add</button>
@@ -30,10 +33,8 @@ export default class Descriptions extends Vue {
       .catch((err) => console.error(err));
   }
 
-  public deleteLine(game: string) {
-    this.descriptions = this.descriptions.filter(
-      (description) => description.game !== game
-    );
+  public deleteLine(index: number) {
+    this.descriptions.splice(index, 1);
   }
 
   public addLine() {
