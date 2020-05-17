@@ -4,8 +4,8 @@ export async function getConfig(): Promise<Config> {
   return await get("config");
 }
 
-export async function postConfig(descriptions: Config) {
-  await post("config", descriptions);
+export async function postConfig(config: Config) {
+  await post("config", config);
 }
 
 export async function getClientId(): Promise<string> {

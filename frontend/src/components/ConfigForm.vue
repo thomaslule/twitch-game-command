@@ -1,8 +1,8 @@
 <template>
   <div v-if="loaded">
     <button v-on:click="update">Update</button>
-    <br />
-    Command <input v-model="config.command" />
+    <br />Command
+    <input v-model="config.command" />
     <ul>
       <li>
         Default text
@@ -15,7 +15,7 @@
       >
         <input v-model="gameDescription.game" />
         <br />
-        <textarea v-model="gameDescription.text" />
+        <textarea v-model="gameDescription.description" />
         <br />
         <button v-on:click="deleteLine(index)">Delete</button>
       </li>
