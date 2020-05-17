@@ -10,11 +10,11 @@ export function getCommandHandler(twitch: Twitch, store: Store) {
         const gameDescription = config.gameDescriptions.find(
           (description) => description.game === currentGame
         );
-        twitch.say(
-          gameDescription
-            ? gameDescription.description
-            : config.defaultDescription
-        );
+        if (gameDescription?.description) {
+          twitch.say(gameDescription.description);
+        } else if (config.defaultDescription) {
+          twitch.say(config.defaultDescription);
+        }
       }
     } catch (err) {
       console.error(err);
