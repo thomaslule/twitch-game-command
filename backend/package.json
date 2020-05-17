@@ -6,7 +6,7 @@
   "scripts": {
     "start": "node dist/index.js",
     "dev": "ts-node src/index.ts",
-    "build": "tsc && cp src/local-config.json dist/local-config.json"
+    "build": "tsc"
   },
   "repository": {
     "type": "git",

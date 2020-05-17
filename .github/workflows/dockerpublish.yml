@@ -1,0 +1,62 @@
+name: Docker
+
+on:
+  push:
+    # Publish `master` as Docker `latest` image.
+    branches:
+      - master
+
+    # Publish `v1.2.3` tags as releases.
+    tags:
+      - v*
+
+  # Run tests for any PRs.
+  pull_request:
+
+env:
+  IMAGE_NAME: twitch-game-command
+
+jobs:
+  # Push image to Docker Hub.
+  # See also https://docs.docker.com/docker-hub/builds/
+  push:
+    runs-on: ubuntu-latest
+    if: github.event_name == 'push'
+
+    steps:
+      - uses: actions/checkout@v2
+
+      - name: Set up Docker Buildx
+        if: success()
+        id: buildx
+        uses: crazy-max/ghaction-docker-buildx@v1
+        with:
+          version: latest
+
+      - name: Available platforms
+        if: success()
+        run: echo ${{ steps.buildx.outputs.platforms }}
+
+      - name: Prepare
+        if: success()
+        id: prepare
+        run: |
+          echo ::set-output name=docker_platforms::linux/amd64,linux/arm/v7
+          echo ::set-output name=docker_username::thomaslule
+          echo ::set-output name=docker_image::thomaslule/twitch-game-command
+          echo ::set-output name=hash::${GITHUB_SHA}
+      - name: Docker Login
+        if: success()
+        env:
+          DOCKER_PASSWORD: ${{ secrets.DOCKER_PASSWORD }}
+        run: |
+          echo "${DOCKER_PASSWORD}" | docker login --username "${{ steps.prepare.outputs.docker_username }}" --password-stdin
+      - name: Run Buildx
+        if: success()
+        run: |
+          docker buildx build \
+            --output type=image,name=${{ steps.prepare.outputs.docker_image }},push=true \
+            --platform ${{ steps.prepare.outputs.docker_platforms }} \
+            --tag "${{ steps.prepare.outputs.docker_image }}:latest" \
+            --tag "${{ steps.prepare.outputs.docker_image }}:${{ steps.prepare.outputs.hash }}" \
+            --file Dockerfile .
