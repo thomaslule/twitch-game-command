@@ -24,6 +24,7 @@ export class Twitch {
 
   public async connect() {
     await this.chatBot.connect();
+    console.log(`Connected to ${this.options.channel} chatroom`);
   }
 
   public onMessage(handler: (message: string) => void) {
