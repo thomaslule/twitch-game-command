@@ -1,5 +1,7 @@
 <template>
-  <a v-if="loaded" v-bind:href="twitchUrl">{{ $t("login") }}</a>
+  <div class="login-container">
+    <a v-if="loaded" v-bind:href="twitchUrl">{{ $t("login") }}</a>
+  </div>
 </template>
 
 <script lang="ts">
@@ -48,3 +50,26 @@ export default class Login extends Vue {
   }
 }
 </script>
+
+<style scoped>
+.login-container {
+  display: flex;
+  justify-content: center;
+  margin-top: 50px;
+  width: 100%;
+}
+.login-container a {
+  color: white;
+  background-color: #b151e6;
+  border: none;
+  border-radius: 0.5rem;
+  padding: 0.5rem 1rem;
+  cursor: pointer;
+  text-decoration: none;
+}
+.login-container a:hover {
+  color: #b151e6;
+  background-color: white;
+  border: 1px solid #b151e6;
+}
+</style>

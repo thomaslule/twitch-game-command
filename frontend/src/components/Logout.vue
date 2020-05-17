@@ -1,5 +1,5 @@
 <template>
-  <button v-on:click="logout">{{ $t("logout") }}</button>
+  <button v-on:click="logout" class="button">{{ $t("logout") }}</button>
 </template>
 
 <script lang="ts">
@@ -13,3 +13,19 @@ export default class Logout extends Vue {
   }
 }
 </script>
+
+<style scoped>
+.button {
+  margin: 20px 20px 20px auto;
+  color: white;
+  background-color: transparent;
+  border: 1px solid white;
+  border-radius: 0.5rem;
+  padding: 0.375rem 0.75rem;
+  cursor: pointer;
+}
+.button:hover {
+  color: black;
+  background-color: white;
+}
+</style>

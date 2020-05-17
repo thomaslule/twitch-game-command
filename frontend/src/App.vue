@@ -1,9 +1,17 @@
 <template>
   <div id="app">
-    <ChangeLanguage />
-    <Login v-if="!authenticated" />
-    <Logout v-if="authenticated" />
-    <ConfigForm v-if="authenticated" />
+    <header>
+      <div class="size-restrain">
+        <ChangeLanguage />
+        <Logout v-if="authenticated" />
+      </div>
+    </header>
+    <section id="content">
+      <div class="size-restrain">
+        <Login v-if="!authenticated" />
+        <ConfigForm v-if="authenticated" />
+      </div>
+    </section>
   </div>
 </template>
 
@@ -29,9 +37,27 @@ export default class App extends Vue {
 </script>
 
 <style>
+body {
+  margin: 0px;
+}
 #app {
   font-family: Avenir, Helvetica, Arial, sans-serif;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
+}
+header {
+  background-color: #b151e6;
+  display: flex;
+  justify-content: center;
+}
+#content {
+  display: flex;
+  justify-content: center;
+}
+.size-restrain {
+  width: 100%;
+  max-width: 1200px;
+  display: flex;
+  align-items: center;
 }
 </style>

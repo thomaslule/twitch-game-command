@@ -1,29 +1,55 @@
 <template>
-  <form v-if="loaded" v-on:submit.prevent="onSubmit">
-    <button type="submit">{{ $t("configForm.save") }}</button>
-    <br />
-    {{ $t("configForm.command") }}
-    <input v-model="config.command" />
-    <ul>
-      <li>
-        {{ $t("configForm.defaultDescription") }}
-        <br />
-        <textarea v-model="config.defaultDescription" />
-      </li>
-      <li
-        v-for="(gameDescription, index) in config.gameDescriptions"
-        :key="`gameDescription-${index}`"
-      >
-        {{ $t("configForm.game") }}
-        <input v-model="gameDescription.game" required />
-        <br />
-        {{ $t("configForm.description") }}
-        <textarea v-model="gameDescription.description" />
-        <br />
-        <button type="button" v-on:click="deleteLine(index)">{{ $t("configForm.delete") }}</button>
-      </li>
-    </ul>
-    <button type="button" v-on:click="addLine">{{ $t("configForm.add") }}</button>
+  <form v-if="loaded" v-on:submit.prevent="onSubmit" class="confirm-form">
+    <div class="column-fields">
+      <div class="field-group header-group">
+        <label for="field-command">{{ $t("configForm.command") }}</label>
+        <input v-model="config.command" id="field-command" />
+      </div>
+
+      <div class="field-group header-group">
+        <label for="field-default-description">{{ $t("configForm.defaultDescription") }}</label>
+        <textarea v-model="config.defaultDescription" id="field-default-description" />
+      </div>
+
+      <ul>
+        <li
+          v-for="(gameDescription, index) in config.gameDescriptions"
+          :key="`gameDescription-${index}`"
+          class="field-group game-group"
+        >
+          <div class="game-group-column-button">
+            <button
+              type="button"
+              v-on:click="deleteLine(index)"
+              class="action-button"
+            >{{ $t("configForm.delete") }}</button>
+          </div>
+          <div class="game-group-column-fields">
+            <input
+              v-model="gameDescription.game"
+              required
+              v-bind:placeholder="$t('configForm.game')"
+            />
+            <textarea
+              v-model="gameDescription.description"
+              v-bind:placeholder="$t('configForm.description')"
+            />
+          </div>
+        </li>
+        <li class="field-group game-group">
+          <div class="game-group-column-button">
+            <button
+              type="button"
+              v-on:click="addLine"
+              class="action-button"
+            >{{ $t("configForm.add") }}</button>
+          </div>
+        </li>
+      </ul>
+    </div>
+    <div class="column-submit">
+      <button type="submit" class="save-button">{{ $t("configForm.save") }}</button>
+    </div>
   </form>
 </template>
 
@@ -66,3 +92,77 @@ export default class ConfigForm extends Vue {
   }
 }
 </script>
+
+<style scoped>
+.confirm-form {
+  display: flex;
+  margin: 20px;
+  width: 100%;
+}
+.column-submit {
+  width: 20%;
+}
+.column-fields {
+  width: 80%;
+}
+.field-group {
+  margin-bottom: 20px;
+}
+.header-group {
+  margin-left: 150px;
+}
+.game-group {
+  display: flex;
+}
+.game-group-column-button {
+  width: 150px;
+  display: flex;
+  justify-content: flex-end;
+  align-items: flex-start;
+}
+.game-group-column-fields {
+  flex-grow: 1;
+}
+.confirm-form ul {
+  list-style-type: none;
+  padding: 0px;
+}
+.confirm-form input {
+  display: block;
+  margin-bottom: 5px;
+  padding: 5px;
+}
+.confirm-form textarea {
+  display: block;
+  width: 80%;
+  height: 50px;
+  padding: 5px;
+  font-family: Arial;
+}
+.confirm-form button {
+  border-radius: 0.5rem;
+  padding: 0.5rem 1rem;
+  cursor: pointer;
+  text-decoration: none;
+}
+.save-button {
+  color: white;
+  background-color: #45bd5f;
+  border: none;
+}
+.save-button:hover {
+  color: #45bd5f;
+  background-color: white;
+  border: 1px solid #45bd5f;
+}
+.action-button {
+  margin-right: 5px;
+  background-color: transparent;
+  color: #6c757d;
+  border: 1px solid #6c757d;
+}
+.action-button:hover {
+  background-color: #6c757d;
+  color: white;
+}
+</style>

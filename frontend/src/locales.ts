@@ -1,5 +1,6 @@
 export const locales = {
   en: {
+    changeLanguage: "Langage",
     login: "Login with Twitch",
     logout: "Logout",
     configForm: {
@@ -13,6 +14,7 @@ export const locales = {
     },
   },
   fr: {
+    changeLanguage: "Langue",
     login: "Se connecter via Twitch",
     logout: "Déconnexion",
     configForm: {
