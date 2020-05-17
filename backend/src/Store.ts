@@ -1,6 +1,8 @@
 import { promises } from "fs";
 import { Config } from "./Config";
 
+const saveFile = "./stored/save";
+
 export class Store {
   private cache: Config | undefined;
 
@@ -13,16 +15,12 @@ export class Store {
 
   public async set(data: Config) {
     this.cache = data;
-    await promises.writeFile(
-      "./stored/save",
-      JSON.stringify(this.cache),
-      "utf8"
-    );
+    await promises.writeFile(saveFile, JSON.stringify(this.cache), "utf8");
   }
 
   private async initCache() {
     try {
-      const json = await promises.readFile("./stored/save", "utf8");
+      const json = await promises.readFile(saveFile, "utf8");
       this.cache = JSON.parse(json);
     } catch (error) {
       await this.set({
