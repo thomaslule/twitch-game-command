@@ -1,3 +1,4 @@
+import Joi from "@hapi/joi";
 import cors from "@koa/cors";
 import Koa from "koa";
 import bodyParser from "koa-bodyparser";
@@ -29,8 +30,24 @@ export class HttpServer {
 
     this.app.use(
       route.post("/config", async (context) => {
-        await store.set(context.request.body);
-        context.status = 200;
+        const schema = Joi.object({
+          command: Joi.string().allow(""),
+          defaultDescription: Joi.string().allow(""),
+          gameDescriptions: Joi.array().items(
+            Joi.object({
+              game: Joi.string(),
+              description: Joi.string().allow(""),
+            })
+          ),
+        });
+        const { error, value } = schema.validate(context.request.body);
+        if (error) {
+          context.body = { error: error.message };
+          context.status = 422;
+        } else {
+          await store.set(value);
+          context.status = 200;
+        }
       })
     );
 
