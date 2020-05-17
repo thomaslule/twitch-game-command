@@ -48,7 +48,10 @@
       </ul>
     </div>
     <div class="column-submit">
-      <button type="submit" class="save-button">{{ $t("configForm.save") }}</button>
+      <button type="submit" class="save-button" :disabled="submitting">
+        <span v-if="!submitting">{{ $t("configForm.save") }}</span>
+        <img v-if="submitting" src="/spinner.webp" class="spinner" />
+      </button>
     </div>
   </form>
 </template>
@@ -65,6 +68,7 @@ export default class ConfigForm extends Vue {
     gameDescriptions: [],
   };
   public loaded = false;
+  public submitting = false;
 
   public async mounted() {
     try {
@@ -85,9 +89,15 @@ export default class ConfigForm extends Vue {
 
   public async onSubmit() {
     try {
-      await postConfig(this.config);
+      this.submitting = true;
+      await Promise.all([
+        postConfig(this.config),
+        new Promise((resolve) => setTimeout(resolve, 1000)),
+      ]);
     } catch (error) {
       console.error(error);
+    } finally {
+      this.submitting = false;
     }
   }
 }
@@ -155,6 +165,12 @@ export default class ConfigForm extends Vue {
   background-color: white;
   border: 1px solid #45bd5f;
 }
+.save-button[disabled] {
+  color: white;
+  background-color: #45bd5f;
+  border: none;
+  cursor: default;
+}
 .action-button {
   margin-right: 5px;
   background-color: transparent;
@@ -164,5 +180,9 @@ export default class ConfigForm extends Vue {
 .action-button:hover {
   background-color: #6c757d;
   color: white;
+}
+.spinner {
+  width: 30px;
+  height: 30px;
 }
 </style>
