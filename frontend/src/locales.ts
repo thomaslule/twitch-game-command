@@ -12,6 +12,7 @@ export const locales = {
       delete: "Delete",
       add: "Add",
     },
+    error: "Something went wrong",
   },
   fr: {
     changeLanguage: "Langue",
@@ -26,5 +27,6 @@ export const locales = {
       delete: "Supprimer",
       add: "Ajouter",
     },
+    error: "Une erreur est survenue",
   },
 };

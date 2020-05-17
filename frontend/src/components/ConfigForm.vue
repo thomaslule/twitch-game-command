@@ -52,6 +52,7 @@
         <span v-if="!submitting">{{ $t("configForm.save") }}</span>
         <img v-if="submitting" src="/spinner.webp" class="spinner" />
       </button>
+      <p v-if="error">{{ $t("error") }}</p>
     </div>
   </form>
 </template>
@@ -69,6 +70,7 @@ export default class ConfigForm extends Vue {
   };
   public loaded = false;
   public submitting = false;
+  public error = false;
 
   public async mounted() {
     try {
@@ -89,6 +91,7 @@ export default class ConfigForm extends Vue {
 
   public async onSubmit() {
     try {
+      this.error = false;
       this.submitting = true;
       await Promise.all([
         postConfig(this.config),
@@ -96,6 +99,7 @@ export default class ConfigForm extends Vue {
       ]);
     } catch (error) {
       console.error(error);
+      this.error = true;
     } finally {
       this.submitting = false;
     }
