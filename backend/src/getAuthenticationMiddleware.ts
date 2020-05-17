@@ -17,7 +17,12 @@ export function getAuthenticationMiddleware(options: Options) {
       return;
     }
     const login = userResponse.login.toLowerCase();
-    if (!options.logins.map((login) => login.toLowerCase()).includes(login)) {
+    if (
+      !options.logins
+        .split(",")
+        .map((login) => login.toLowerCase())
+        .includes(login)
+    ) {
       context.status = 403;
       context.body = { error: `Login ${login} not authorized` };
       return;

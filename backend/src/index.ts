@@ -14,7 +14,7 @@ async function start() {
   twitch.onMessage(getCommandHandler(twitch, store));
 
   await twitch.connect();
-  server.listen(options.port);
+  server.listen(parseInt(options.port, 10));
   console.log(`Listening to ${options.port}`);
 }
 
