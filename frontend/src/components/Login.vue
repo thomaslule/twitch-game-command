@@ -1,7 +1,5 @@
 <template>
-  <a v-if="loaded" v-bind:href="twitchUrl">
-    Login with twitch
-  </a>
+  <a v-if="loaded" v-bind:href="twitchUrl">{{ $t("login") }}</a>
 </template>
 
 <script lang="ts">

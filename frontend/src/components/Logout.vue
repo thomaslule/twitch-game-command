@@ -1,5 +1,5 @@
 <template>
-  <button v-on:click="logout">Logout</button>
+  <button v-on:click="logout">{{ $t("logout") }}</button>
 </template>
 
 <script lang="ts">

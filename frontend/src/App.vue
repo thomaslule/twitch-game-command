@@ -1,5 +1,6 @@
 <template>
   <div id="app">
+    <ChangeLanguage />
     <Login v-if="!authenticated" />
     <Logout v-if="authenticated" />
     <ConfigForm v-if="authenticated" />
@@ -8,6 +9,7 @@
 
 <script lang="ts">
 import { Component, Vue } from "vue-property-decorator";
+import ChangeLanguage from "./components/ChangeLanguage.vue";
 import Login from "./components/Login.vue";
 import Logout from "./components/Logout.vue";
 import ConfigForm from "./components/ConfigForm.vue";
@@ -15,6 +17,7 @@ import { isAuthenticated } from "./auth";
 
 @Component({
   components: {
+    ChangeLanguage,
     Login,
     Logout,
     ConfigForm,

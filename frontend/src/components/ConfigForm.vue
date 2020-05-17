@@ -1,11 +1,12 @@
 <template>
   <form v-if="loaded" v-on:submit.prevent="onSubmit">
-    <button type="submit">Update</button>
-    <br />Command
+    <button type="submit">{{ $t("configForm.save") }}</button>
+    <br />
+    {{ $t("configForm.command") }}
     <input v-model="config.command" />
     <ul>
       <li>
-        Default text
+        {{ $t("configForm.defaultDescription") }}
         <br />
         <textarea v-model="config.defaultDescription" />
       </li>
@@ -13,14 +14,16 @@
         v-for="(gameDescription, index) in config.gameDescriptions"
         :key="`gameDescription-${index}`"
       >
+        {{ $t("configForm.game") }}
         <input v-model="gameDescription.game" required />
         <br />
+        {{ $t("configForm.description") }}
         <textarea v-model="gameDescription.description" />
         <br />
-        <button type="button" v-on:click="deleteLine(index)">Delete</button>
+        <button type="button" v-on:click="deleteLine(index)">{{ $t("configForm.delete") }}</button>
       </li>
     </ul>
-    <button type="button" v-on:click="addLine">Add</button>
+    <button type="button" v-on:click="addLine">{{ $t("configForm.add") }}</button>
   </form>
 </template>
 
