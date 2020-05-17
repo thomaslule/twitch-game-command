@@ -1,6 +1,6 @@
 <template>
-  <div v-if="loaded">
-    <button v-on:click="update">Update</button>
+  <form v-if="loaded" v-on:submit.prevent="onSubmit">
+    <button type="submit">Update</button>
     <br />Command
     <input v-model="config.command" />
     <ul>
@@ -13,15 +13,15 @@
         v-for="(gameDescription, index) in config.gameDescriptions"
         :key="`gameDescription-${index}`"
       >
-        <input v-model="gameDescription.game" />
+        <input v-model="gameDescription.game" required />
         <br />
         <textarea v-model="gameDescription.description" />
         <br />
-        <button v-on:click="deleteLine(index)">Delete</button>
+        <button type="button" v-on:click="deleteLine(index)">Delete</button>
       </li>
     </ul>
-    <button v-on:click="addLine">Add</button>
-  </div>
+    <button type="button" v-on:click="addLine">Add</button>
+  </form>
 </template>
 
 <script lang="ts">
@@ -54,7 +54,7 @@ export default class ConfigForm extends Vue {
     this.config.gameDescriptions.push({ game: "", description: "" });
   }
 
-  public async update() {
+  public async onSubmit() {
     try {
       await postConfig(this.config);
     } catch (error) {
