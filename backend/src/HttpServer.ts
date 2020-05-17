@@ -3,6 +3,7 @@ import cors from "@koa/cors";
 import Koa from "koa";
 import bodyParser from "koa-bodyparser";
 import route from "koa-route";
+import serve from "koa-static";
 import { getAuthenticationMiddleware } from "./getAuthenticationMiddleware";
 import { Options } from "./Options";
 import { Store } from "./Store";
@@ -14,8 +15,10 @@ export class HttpServer {
     this.app.use(cors());
     this.app.use(bodyParser());
 
+    this.app.use(serve("./public"));
+
     this.app.use(
-      route.get("/clientId", (context) => {
+      route.get("/api/clientId", (context) => {
         context.body = { clientId: options.client_id };
       })
     );
@@ -23,13 +26,13 @@ export class HttpServer {
     this.app.use(getAuthenticationMiddleware(options));
 
     this.app.use(
-      route.get("/checkToken", (context) => {
+      route.get("/api/checkToken", (context) => {
         context.status = 204;
       })
     );
 
     this.app.use(
-      route.post("/config", async (context) => {
+      route.post("/api/config", async (context) => {
         const schema = Joi.object({
           command: Joi.string().allow(""),
           defaultDescription: Joi.string().allow(""),
@@ -52,7 +55,7 @@ export class HttpServer {
     );
 
     this.app.use(
-      route.get("/config", async (context) => {
+      route.get("/api/config", async (context) => {
         context.body = await store.get();
       })
     );

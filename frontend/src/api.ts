@@ -18,7 +18,7 @@ export async function checkToken() {
 }
 
 async function get(path: string) {
-  const res = await fetch(`${process.env.VUE_APP_API_URL}${path}`, {
+  const res = await fetch(`${process.env.VUE_APP_API_URL}/${path}`, {
     headers: { Authorization: `OAuth ${getToken()}` },
   });
   await handleError(res);
@@ -26,7 +26,7 @@ async function get(path: string) {
 }
 
 async function post(path: string, body: object) {
-  const res = await fetch(`${process.env.VUE_APP_API_URL}${path}`, {
+  const res = await fetch(`${process.env.VUE_APP_API_URL}/${path}`, {
     method: "POST",
     headers: {
       "Content-Type": "application/json",
