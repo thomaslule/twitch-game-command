@@ -32,7 +32,18 @@ export default class GameField extends Vue {
   public autocompleteVisible = false;
 
   public async mounted() {
+    document.addEventListener("click", this.handleClickOutside);
     this.clientId = await getClientId();
+  }
+
+  public destroyed() {
+    document.removeEventListener("click", this.handleClickOutside);
+  }
+
+  public handleClickOutside(evt: any) {
+    if (!this.$el.contains(evt.target)) {
+      this.autocompleteVisible = false;
+    }
   }
 
   public async updateValue(value: string, andCloseAutocomplete = false) {
