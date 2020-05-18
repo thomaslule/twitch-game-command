@@ -52,14 +52,12 @@ export default class GameField extends Vue {
     if (andCloseAutocomplete) {
       this.autocompleteVisible = false;
     } else {
-      this.autocompleteList = await this.fetchAutocompleteList(value);
-      this.autocompleteVisible = true;
+      await this.refreshAutocomplete(value);
     }
   }
 
   public async onFocus() {
-    this.autocompleteList = await this.fetchAutocompleteList(this.value);
-    this.autocompleteVisible = true;
+    await this.refreshAutocomplete(this.value);
   }
 
   public handleClickOutside(evt: any) {
@@ -90,6 +88,11 @@ export default class GameField extends Vue {
 
   public onMouseOver(index: number) {
     this.arrowCounter = index;
+  }
+
+  private async refreshAutocomplete(value: string) {
+    this.autocompleteList = await this.fetchAutocompleteList(value);
+    this.autocompleteVisible = this.autocompleteList.length > 0;
   }
 
   private async fetchAutocompleteList(value: string) {
