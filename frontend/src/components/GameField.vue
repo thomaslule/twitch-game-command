@@ -27,6 +27,7 @@
 
 <script lang="ts">
 import { Component, Vue, Prop } from "vue-property-decorator";
+import { throttle } from "throttle-debounce";
 import { getClientId } from "../api";
 
 @Component
@@ -37,6 +38,10 @@ export default class GameField extends Vue {
   public autocompleteList: string[] = [];
   public autocompleteVisible = false;
   public arrowCounter = 0;
+  private refreshAutocompleteThrottled = throttle(
+    500,
+    this.refreshAutocomplete
+  );
 
   public async mounted() {
     document.addEventListener("click", this.handleClickOutside);
@@ -52,12 +57,12 @@ export default class GameField extends Vue {
     if (andCloseAutocomplete) {
       this.autocompleteVisible = false;
     } else {
-      await this.refreshAutocomplete(value);
+      await this.refreshAutocompleteThrottled(value);
     }
   }
 
   public async onFocus() {
-    await this.refreshAutocomplete(this.value);
+    await this.refreshAutocompleteThrottled(this.value);
   }
 
   public handleClickOutside(evt: any) {
@@ -93,36 +98,35 @@ export default class GameField extends Vue {
   }
 
   private async refreshAutocomplete(value: string) {
-    this.arrowCounter = 0;
-    this.autocompleteList = await this.fetchAutocompleteList(value);
-    this.autocompleteVisible = this.autocompleteList.length > 0;
-  }
-
-  private async fetchAutocompleteList(value: string) {
     const trimmed = value.trim();
+    let newValue = [];
     if (this.clientId && trimmed.length > 0) {
       try {
-        const result = await fetch(
-          `https://api.twitch.tv/kraken/search/games?query=${trimmed}`,
-          {
-            headers: {
-              Accept: "application/vnd.twitchtv.v5+json",
-              "Client-ID": this.clientId,
-            },
-          }
-        );
-        if (!result.ok) {
-          throw new Error(await result.text());
-        }
-        const { games } = await result.json();
-        return games ? games.map((gameObj: any) => gameObj.name) : [];
+        newValue = await this.fetchAutocomplete(trimmed);
       } catch (error) {
         console.error(error);
-        return [];
       }
-    } else {
-      return [];
     }
+    this.autocompleteList = newValue;
+    this.autocompleteVisible = this.autocompleteList.length > 0;
+    this.arrowCounter = 0;
+  }
+
+  private async fetchAutocomplete(value: string) {
+    const result = await fetch(
+      `https://api.twitch.tv/kraken/search/games?query=${value}`,
+      {
+        headers: {
+          Accept: "application/vnd.twitchtv.v5+json",
+          "Client-ID": this.clientId!,
+        },
+      }
+    );
+    if (!result.ok) {
+      throw new Error(await result.text());
+    }
+    const { games } = await result.json();
+    return games ? games.map((gameObj: any) => gameObj.name) : [];
   }
 }
 </script>
