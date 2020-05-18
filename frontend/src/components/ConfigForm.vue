@@ -7,8 +7,13 @@
       </div>
 
       <div class="field-group header-group">
-        <label for="field-default-description">{{ $t("configForm.defaultDescription") }}</label>
-        <textarea v-model="config.defaultDescription" id="field-default-description" />
+        <label for="field-default-description">{{
+          $t("configForm.defaultDescription")
+        }}</label>
+        <textarea
+          v-model="config.defaultDescription"
+          id="field-default-description"
+        />
       </div>
 
       <ul>
@@ -22,14 +27,12 @@
               type="button"
               v-on:click="deleteLine(index)"
               class="action-button"
-            >{{ $t("configForm.delete") }}</button>
+            >
+              {{ $t("configForm.delete") }}
+            </button>
           </div>
           <div class="game-group-column-fields">
-            <input
-              v-model="gameDescription.game"
-              required
-              v-bind:placeholder="$t('configForm.game')"
-            />
+            <GameField v-model="gameDescription.game" />
             <textarea
               v-model="gameDescription.description"
               v-bind:placeholder="$t('configForm.description')"
@@ -38,11 +41,9 @@
         </li>
         <li class="field-group game-group">
           <div class="game-group-column-button">
-            <button
-              type="button"
-              v-on:click="addLine"
-              class="action-button"
-            >{{ $t("configForm.add") }}</button>
+            <button type="button" v-on:click="addLine" class="action-button">
+              {{ $t("configForm.add") }}
+            </button>
           </div>
         </li>
       </ul>
@@ -59,9 +60,14 @@
 
 <script lang="ts">
 import { Component, Vue } from "vue-property-decorator";
+import GameField from "./GameField.vue";
 import { Config, getConfig, postConfig } from "../api";
 
-@Component
+@Component({
+  components: {
+    GameField,
+  },
+})
 export default class ConfigForm extends Vue {
   public config: Config = {
     command: "",
