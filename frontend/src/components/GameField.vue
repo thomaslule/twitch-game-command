@@ -18,9 +18,7 @@
         class="autocomplete-result"
         :class="{ active: i === arrowCounter }"
         @mouseover="onMouseOver(i)"
-      >
-        {{ result }}
-      </li>
+      >{{ result }}</li>
     </ul>
   </span>
 </template>
@@ -147,7 +145,7 @@ export default class GameField extends Vue {
   margin: 0;
   background-color: white;
   border: 1px solid #eeeeee;
-  height: 120px;
+  max-height: 120px;
   width: 240px;
   overflow: auto;
 }
