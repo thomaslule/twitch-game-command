@@ -36,7 +36,7 @@ export default class GameField extends Vue {
   public clientId?: string;
   public autocompleteList: string[] = [];
   public autocompleteVisible = false;
-  public arrowCounter = -1;
+  public arrowCounter = 0;
 
   public async mounted() {
     document.addEventListener("click", this.handleClickOutside);
@@ -73,16 +73,18 @@ export default class GameField extends Vue {
   }
 
   public onArrowUp() {
-    if (this.arrowCounter >= 0) {
+    if (this.arrowCounter > 0) {
       this.arrowCounter = this.arrowCounter - 1;
     }
   }
 
   public async onEnter() {
-    if (this.arrowCounter >= 0) {
+    if (
+      this.autocompleteVisible &&
+      this.autocompleteList.length > this.arrowCounter
+    ) {
       await this.updateValue(this.autocompleteList[this.arrowCounter], true);
       this.autocompleteVisible = false;
-      this.arrowCounter = -1;
     }
   }
 
@@ -91,6 +93,7 @@ export default class GameField extends Vue {
   }
 
   private async refreshAutocomplete(value: string) {
+    this.arrowCounter = 0;
     this.autocompleteList = await this.fetchAutocompleteList(value);
     this.autocompleteVisible = this.autocompleteList.length > 0;
   }
