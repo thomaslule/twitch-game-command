@@ -8,6 +8,7 @@
       @keydown.down.prevent="onArrowDown"
       @keydown.up.prevent="onArrowUp"
       @keydown.enter.prevent="onEnter"
+      @focus="onFocus"
     />
     <ul class="autocomplete-results" v-show="autocompleteVisible">
       <li
@@ -46,12 +47,6 @@ export default class GameField extends Vue {
     document.removeEventListener("click", this.handleClickOutside);
   }
 
-  public handleClickOutside(evt: any) {
-    if (!this.$el.contains(evt.target)) {
-      this.autocompleteVisible = false;
-    }
-  }
-
   public async updateValue(value: string, andCloseAutocomplete = false) {
     this.$emit("input", value);
     if (andCloseAutocomplete) {
@@ -59,6 +54,17 @@ export default class GameField extends Vue {
     } else {
       this.autocompleteList = await this.fetchAutocompleteList(value);
       this.autocompleteVisible = true;
+    }
+  }
+
+  public async onFocus() {
+    this.autocompleteList = await this.fetchAutocompleteList(this.value);
+    this.autocompleteVisible = true;
+  }
+
+  public handleClickOutside(evt: any) {
+    if (!this.$el.contains(evt.target)) {
+      this.autocompleteVisible = false;
     }
   }
 
@@ -82,7 +88,7 @@ export default class GameField extends Vue {
     }
   }
 
-  public onMouseOver(index) {
+  public onMouseOver(index: number) {
     this.arrowCounter = index;
   }
 
@@ -101,8 +107,8 @@ export default class GameField extends Vue {
         if (!result.ok) {
           throw new Error(await result.text());
         }
-        const responseObject = await result.json();
-        return responseObject.games.map((gameObj: any) => gameObj.name);
+        const { games } = await result.json();
+        return games ? games.map((gameObj: any) => gameObj.name) : [];
       } catch (error) {
         console.error(error);
         return [];
@@ -136,7 +142,7 @@ export default class GameField extends Vue {
 }
 
 .autocomplete-result.active {
-  background-color: #4aae9b;
+  background-color: #b151e6;
   color: white;
 }
 </style>
