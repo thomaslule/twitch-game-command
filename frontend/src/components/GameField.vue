@@ -1,5 +1,5 @@
 <template>
-  <span>
+  <span class="game-field">
     <input
       :value="value"
       v-on:input="updateValue($event.target.value)"
@@ -96,10 +96,11 @@ export default class GameField extends Vue {
   }
 
   private async fetchAutocompleteList(value: string) {
-    if (this.clientId && value.length > 0) {
+    const trimmed = value.trim();
+    if (this.clientId && trimmed.length > 0) {
       try {
         const result = await fetch(
-          `https://api.twitch.tv/kraken/search/games?query=${value}`,
+          `https://api.twitch.tv/kraken/search/games?query=${trimmed}`,
           {
             headers: {
               Accept: "application/vnd.twitchtv.v5+json",
@@ -124,23 +125,29 @@ export default class GameField extends Vue {
 </script>
 
 <style>
-.autocomplete {
-  position: relative;
-  width: 130px;
+.game-field {
+  display: block;
+  margin-bottom: 5px;
+}
+
+.game-field input {
+  padding: 5px;
 }
 
 .autocomplete-results {
+  position: absolute;
   padding: 0;
   margin: 0;
+  background-color: white;
   border: 1px solid #eeeeee;
   height: 120px;
+  width: 240px;
   overflow: auto;
 }
 
 .autocomplete-result {
   list-style: none;
-  text-align: left;
-  padding: 4px 2px;
+  padding: 5px;
   cursor: pointer;
 }
 
