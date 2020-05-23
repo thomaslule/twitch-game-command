@@ -12,6 +12,14 @@ export const locales = {
       delete: "Delete",
       add: "Add",
     },
+    gameBox: {
+      edit: "Edit",
+      remove: "Remove",
+    },
+    gameModal: {
+      cancel: "Cancel",
+      confirm: "OK",
+    },
     error: "Something went wrong",
   },
   fr: {
@@ -26,6 +34,14 @@ export const locales = {
       description: "Description",
       delete: "Supprimer",
       add: "Ajouter",
+    },
+    gameBox: {
+      edit: "Modifier",
+      remove: "Supprimer",
+    },
+    gameModal: {
+      cancel: "Annuler",
+      confirm: "OK",
     },
     error: "Une erreur est survenue",
   },

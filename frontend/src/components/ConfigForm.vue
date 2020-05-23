@@ -1,49 +1,39 @@
 <template>
   <form v-if="loaded" v-on:submit.prevent="onSubmit" class="confirm-form">
     <div class="column-fields">
-      <div class="field-group header-group">
+      <div class="field-group">
         <label for="field-command">{{ $t("configForm.command") }}</label>
         <input v-model="config.command" id="field-command" />
       </div>
 
-      <div class="field-group header-group">
-        <label for="field-default-description">{{
+      <div class="field-group">
+        <label for="field-default-description">
+          {{
           $t("configForm.defaultDescription")
-        }}</label>
-        <textarea
-          v-model="config.defaultDescription"
-          id="field-default-description"
-        />
+          }}
+        </label>
+        <textarea v-model="config.defaultDescription" id="field-default-description" />
       </div>
 
-      <ul>
+      <ul class="games-list">
         <li
           v-for="(gameDescription, index) in config.gameDescriptions"
           :key="`gameDescription-${index}`"
-          class="field-group game-group"
         >
-          <div class="game-group-column-button">
+          <GameBox v-model="config.gameDescriptions[index]" v-on:remove="onRemoveGame(index)" />
+        </li>
+        <li>
+          <div>
             <button
               type="button"
-              v-on:click="deleteLine(index)"
+              v-on:click="onClickAddGame"
               class="action-button"
-            >
-              {{ $t("configForm.delete") }}
-            </button>
-          </div>
-          <div class="game-group-column-fields">
-            <GameField v-model="gameDescription.game" />
-            <textarea
-              v-model="gameDescription.description"
-              v-bind:placeholder="$t('configForm.description')"
+            >{{ $t("configForm.add") }}</button>
+            <GameModal
+              v-if="showAddModal"
+              v-on:cancel="onModalCancel"
+              v-on:confirm="onModalConfirm"
             />
-          </div>
-        </li>
-        <li class="field-group game-group">
-          <div class="game-group-column-button">
-            <button type="button" v-on:click="addLine" class="action-button">
-              {{ $t("configForm.add") }}
-            </button>
           </div>
         </li>
       </ul>
@@ -61,11 +51,16 @@
 <script lang="ts">
 import { Component, Vue } from "vue-property-decorator";
 import GameField from "./GameField.vue";
+import GameBox from "./GameBox.vue";
+import GameModal from "./GameModal.vue";
 import { Config, getConfig, postConfig } from "../api";
+import { GameDescription } from "../../../backend/src/Config";
 
 @Component({
   components: {
     GameField,
+    GameBox,
+    GameModal,
   },
 })
 export default class ConfigForm extends Vue {
@@ -74,6 +69,7 @@ export default class ConfigForm extends Vue {
     defaultDescription: "",
     gameDescriptions: [],
   };
+  public showAddModal = false;
   public loaded = false;
   public submitting = false;
   public error = false;
@@ -87,12 +83,21 @@ export default class ConfigForm extends Vue {
     }
   }
 
-  public deleteLine(index: number) {
+  public onRemoveGame(index: number) {
     this.config.gameDescriptions.splice(index, 1);
   }
 
-  public addLine() {
-    this.config.gameDescriptions.push({ game: "", description: "" });
+  public onClickAddGame() {
+    this.showAddModal = true;
+  }
+
+  public onModalCancel() {
+    this.showAddModal = false;
+  }
+
+  public onModalConfirm(newGameDescription: GameDescription) {
+    this.config.gameDescriptions.push(newGameDescription);
+    this.showAddModal = false;
   }
 
   public async onSubmit() {
@@ -128,20 +133,11 @@ export default class ConfigForm extends Vue {
 .field-group {
   margin-bottom: 20px;
 }
-.header-group {
-  margin-left: 150px;
-}
 .game-group {
   display: flex;
 }
-.game-group-column-button {
-  width: 150px;
+.games-list {
   display: flex;
-  justify-content: flex-end;
-  align-items: flex-start;
-}
-.game-group-column-fields {
-  flex-grow: 1;
 }
 .confirm-form ul {
   list-style-type: none;
@@ -160,6 +156,8 @@ export default class ConfigForm extends Vue {
   font-family: Arial;
 }
 .confirm-form button {
+  margin-right: 5px;
+  margin-bottom: 5px;
   border-radius: 0.5rem;
   padding: 0.5rem 1rem;
   cursor: pointer;
@@ -182,7 +180,6 @@ export default class ConfigForm extends Vue {
   cursor: default;
 }
 .action-button {
-  margin-right: 5px;
   background-color: transparent;
   color: #6c757d;
   border: 1px solid #6c757d;

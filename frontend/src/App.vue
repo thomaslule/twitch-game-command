@@ -37,6 +37,9 @@ export default class App extends Vue {
 </script>
 
 <style>
+* {
+  box-sizing: border-box;
+}
 body {
   margin: 0px;
 }
