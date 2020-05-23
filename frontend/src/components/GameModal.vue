@@ -1,7 +1,7 @@
 <template>
-  <div class="modal-background">
+  <div class="modal-background" v-on:click="cancel">
     <div class="modal-wrapper">
-      <form class="game-modal modal-container" v-on:submit.prevent="confirm">
+      <form class="game-modal modal-container" v-on:submit.prevent="confirm" v-on:click.stop>
         <div class="field-group">
           <label v-bind:for="_uid + '-game'">{{ $t("gameModal.game") }}</label>
           <GameField v-model="value.game" v-bind:id="_uid + '-game'" />
@@ -36,13 +36,28 @@ export default class GameModal extends Vue {
     ? { ...this.gameDescription }
     : { game: "", description: "" };
 
+  public async mounted() {
+    document.addEventListener("keydown", this.handleKeydown);
+  }
+
+  public destroyed() {
+    document.removeEventListener("keydown", this.handleKeydown);
+  }
+
   @Emit("cancel")
   public cancel() {
     return undefined;
   }
+
   @Emit("confirm")
   public confirm() {
     return this.value;
+  }
+
+  private handleKeydown(event: any) {
+    if (event.keyCode === 27) {
+      this.$emit("cancel");
+    }
   }
 }
 </script>
