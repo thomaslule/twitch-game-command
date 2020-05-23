@@ -42,7 +42,7 @@ export const locales = {
       areyousure: "Supprimer {game} ?",
     },
     error: "Une erreur est survenue",
-    cancel: "Cancel",
+    cancel: "Annuler",
     confirm: "OK",
   },
 };

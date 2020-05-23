@@ -38,7 +38,7 @@ export default class MainPage extends Vue {
 
 <style scoped>
 .header {
-  background-color: #b151e6;
+  background-color: rgb(177, 81, 230);
   display: flex;
   justify-content: center;
 }

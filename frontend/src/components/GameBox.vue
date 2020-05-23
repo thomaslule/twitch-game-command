@@ -1,13 +1,9 @@
 <template>
   <div class="game-box">
-    <p>{{ value.game }}</p>
+    <p class="game-name" v-bind:title="value.game">{{ value.game }}</p>
     <div>
-      <button type="button" v-on:click="onClickEdit" class="action-button">{{ $t("gameBox.edit") }}</button>
-      <button
-        type="button"
-        v-on:click="onClickRemove"
-        class="action-button"
-      >{{ $t("gameBox.remove") }}</button>
+      <button type="button" v-on:click="onClickEdit">{{ $t("gameBox.edit") }}</button>
+      <button type="button" v-on:click="onClickRemove">{{ $t("gameBox.remove") }}</button>
     </div>
     <GameModal
       v-if="showModal"
@@ -71,29 +67,18 @@ export default class GameBox extends Vue {
 
 <style scoped>
 .game-box {
+  width: 20rem;
+  height: 12rem;
   margin-right: 1rem;
   margin-bottom: 1rem;
   padding: 1rem;
-  border: 0.1rem solid #6c757d;
+  border: 0.1rem solid rgb(108, 117, 125);
   border-radius: 0.5rem;
-  width: 20rem;
   text-align: center;
 }
-.game-box button {
-  margin-right: 0.5rem;
-  margin-bottom: 0.5rem;
-  border-radius: 0.5rem;
-  padding: 0.5rem 1rem;
-  cursor: pointer;
-  text-decoration: none;
-}
-.action-button {
-  background-color: transparent;
-  color: #6c757d;
-  border: 0.1rem solid #6c757d;
-}
-.action-button:hover {
-  background-color: #6c757d;
-  color: white;
+.game-name {
+  overflow: hidden;
+  white-space: nowrap;
+  text-overflow: ellipsis;
 }
 </style>

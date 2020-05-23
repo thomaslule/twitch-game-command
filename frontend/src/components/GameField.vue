@@ -143,8 +143,8 @@ export default class GameField extends Vue {
   position: absolute;
   padding: 0;
   margin: 0;
-  background-color: white;
-  border: 0.1rem solid #eeeeee;
+  background-color: rgb(255, 255, 255);
+  border: 0.1rem solid rgb(238, 238, 238);
   max-height: 12rem;
   width: 24rem;
   overflow: auto;
@@ -157,7 +157,7 @@ export default class GameField extends Vue {
 }
 
 .autocomplete-result.active {
-  background-color: #b151e6;
-  color: white;
+  background-color: rgb(177, 81, 230);
+  color: rgb(255, 255, 255);
 }
 </style>

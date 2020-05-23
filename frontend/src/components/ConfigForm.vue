@@ -19,13 +19,14 @@
         <textarea v-model="config.defaultDescription" id="field-default-description" />
       </div>
 
-      <button type="submit" class="save-button" v-bind:disabled="saving">{{ $t("configForm.save") }}</button>
+      <button type="submit" v-bind:disabled="saving">{{ $t("configForm.save") }}</button>
       <p v-if="error">{{ $t("error") }}</p>
     </form>
     <ul v-if="!loading" class="games-list">
       <li
         v-for="(gameDescription, index) in config.gameDescriptions"
         :key="`gameDescription-${index}`"
+        class="game-box"
       >
         <GameBox
           v-bind:value="gameDescription"
@@ -33,15 +34,9 @@
           v-on:remove="onRemoveGame(index)"
         />
       </li>
-      <li>
-        <div>
-          <button
-            type="button"
-            v-on:click="onClickAddGame"
-            class="action-button"
-          >{{ $t("configForm.add") }}</button>
-          <GameModal v-if="showAddModal" v-on:cancel="onModalCancel" v-on:confirm="onModalConfirm" />
-        </div>
+      <li class="add-game-box">
+        <button type="button" v-on:click="onClickAddGame">{{ $t("configForm.add") }}</button>
+        <GameModal v-if="showAddModal" v-on:cancel="onModalCancel" v-on:confirm="onModalConfirm" />
       </li>
     </ul>
   </div>
@@ -132,9 +127,10 @@ export default class ConfigForm extends Vue {
 <style scoped>
 .config-form {
   padding: 2rem;
+  width: 100%;
 }
 .main-config {
-  border: 0.1rem solid #6c757d;
+  border: 0.1rem solid rgb(108, 117, 125);
   border-radius: 0.5rem;
   padding: 1rem;
 }
@@ -146,6 +142,17 @@ export default class ConfigForm extends Vue {
 }
 .games-list {
   display: flex;
+  flex-wrap: wrap;
+}
+.add-game-box {
+  display: flex;
+  width: 20rem;
+  height: 12rem;
+  border: 0.1rem solid rgb(108, 117, 125);
+  border-radius: 0.5rem;
+  text-align: center;
+  align-items: center;
+  justify-content: center;
 }
 .config-form ul {
   list-style-type: none;
@@ -158,43 +165,10 @@ export default class ConfigForm extends Vue {
 }
 .config-form textarea {
   display: block;
-  width: 80%;
-  height: 5rem;
+  width: 100%;
+  height: 8rem;
   padding: 0.5rem;
   font-family: Arial;
-}
-.config-form button {
-  margin-right: 0.5rem;
-  margin-bottom: 0.5rem;
-  border-radius: 0.5rem;
-  padding: 0.5rem 1rem;
-  cursor: pointer;
-  text-decoration: none;
-}
-.save-button {
-  color: white;
-  background-color: #45bd5f;
-  border: 0.1rem solid #45bd5f;
-}
-.save-button:hover {
-  color: #45bd5f;
-  background-color: white;
-  border: 0.1rem solid #45bd5f;
-}
-.save-button[disabled] {
-  color: white;
-  background-color: #6c757d;
-  border: 0.1rem solid #6c757d;
-  cursor: default;
-}
-.action-button {
-  background-color: transparent;
-  color: #6c757d;
-  border: 0.1rem solid #6c757d;
-}
-.action-button:hover {
-  background-color: #6c757d;
-  color: white;
 }
 .spinner {
   width: 3rem;
@@ -205,8 +179,8 @@ export default class ConfigForm extends Vue {
   margin: 0rem;
   right: 10rem;
   padding: 1rem;
-  background-color: #45bd5f;
-  color: white;
+  background-color: rgb(69, 189, 95);
+  color: rgb(255, 255, 255);
   border-radius: 0.5rem;
 }
 </style>

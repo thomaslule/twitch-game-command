@@ -1,6 +1,6 @@
 <template>
   <div class="login-container">
-    <a v-if="loaded" v-bind:href="twitchUrl">{{ $t("login") }}</a>
+    <a v-if="loaded" v-bind:href="twitchUrl" class="button">{{ $t("login") }}</a>
   </div>
 </template>
 
@@ -58,18 +58,20 @@ export default class Login extends Vue {
   margin-top: 5rem;
   width: 100%;
 }
-.login-container a {
-  color: white;
-  background-color: #b151e6;
-  border: none;
-  border-radius: 0.5rem;
-  padding: 0.5rem 1rem;
-  cursor: pointer;
+.button {
   text-decoration: none;
+  margin-right: 0.5rem;
+  margin-bottom: 0.5rem;
+  border-radius: 0.5rem;
+  padding: 1rem 1rem;
+  cursor: pointer;
+  color: rgb(255, 255, 255);
+  background-color: rgb(177, 81, 230);
+  border: 0.1rem solid rgb(255, 255, 255);
 }
-.login-container a:hover {
-  color: #b151e6;
-  background-color: white;
-  border: 0.1rem solid #b151e6;
+.button:hover {
+  color: rgb(177, 81, 230);
+  background-color: rgb(255, 255, 255);
+  border: 0.1rem solid rgb(177, 81, 230);
 }
 </style>

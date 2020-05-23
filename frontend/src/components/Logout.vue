@@ -17,15 +17,12 @@ export default class Logout extends Vue {
 <style scoped>
 .button {
   margin: 2rem 2rem 2rem auto;
-  color: white;
-  background-color: transparent;
-  border: 0.1rem solid white;
-  border-radius: 0.5rem;
-  padding: 0.375rem 0.75rem;
-  cursor: pointer;
+  color: rgb(255, 255, 255);
+  background-color: rgb(177, 81, 230);
+  border: 0.1rem solid rgb(255, 255, 255);
 }
 .button:hover {
-  color: black;
-  background-color: white;
+  color: rgb(0, 0, 0);
+  background-color: rgb(255, 255, 255);
 }
 </style>

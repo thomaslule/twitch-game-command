@@ -29,7 +29,7 @@ export default class ChangeLanguage extends Vue {
   padding: 2rem;
 }
 .label {
-  color: white;
+  color: rgb(255, 255, 255);
   margin-right: 1rem;
 }
 .select {
