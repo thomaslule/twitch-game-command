@@ -50,7 +50,8 @@ export default class GameBox extends Vue {
 
 <style scoped>
 .game-box {
-  margin: 1rem;
+  margin-right: 1rem;
+  margin-bottom: 1rem;
   padding: 1rem;
   border: 0.1rem solid #6c757d;
   border-radius: 0.5rem;

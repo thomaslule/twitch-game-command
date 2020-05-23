@@ -40,7 +40,6 @@ export default class GameModal extends Vue {
   }
   @Emit("confirm")
   public confirm() {
-    console.log("hello");
     return this.value;
   }
 }
