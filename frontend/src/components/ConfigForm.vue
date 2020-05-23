@@ -45,8 +45,7 @@ import { Component, Vue } from "vue-property-decorator";
 import GameField from "./GameField.vue";
 import GameBox from "./GameBox.vue";
 import GameModal from "./GameModal.vue";
-import { Config, getConfig, postConfig } from "../api";
-import { GameDescription } from "../../../backend/src/Config";
+import { Config, getConfig, postConfig, GameDescription } from "../api";
 
 @Component({
   components: {
