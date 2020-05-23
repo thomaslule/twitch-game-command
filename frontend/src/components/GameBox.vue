@@ -60,6 +60,7 @@ export default class GameBox extends Vue {
   }
 
   public onDeleteModalConfirm() {
+    this.showConfirmDeleteModal = false;
     this.$emit("remove");
   }
 }
