@@ -6,7 +6,7 @@
         <Logout v-if="authenticated" />
       </div>
     </header>
-    <section id="content">
+    <section class="content">
       <div class="size-restrain">
         <Login v-if="!authenticated" />
         <ConfigForm v-if="authenticated" />
