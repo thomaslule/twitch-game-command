@@ -1,6 +1,10 @@
 <template>
   <div class="config-form">
-    <form v-if="loaded" v-on:submit.prevent="onSubmitMainConfig" class="main-config">
+    <div v-if="loading || saving" class="notification">
+      <img src="/spinner.webp" class="spinner" />
+    </div>
+    <div v-if="showSavedNotification" class="notification">{{ $t("configForm.saved") }}</div>
+    <form v-if="!loading" v-on:submit.prevent="onSubmitMainConfig" class="main-config">
       <div class="field-group">
         <label for="field-command">{{ $t("configForm.command") }}</label>
         <input v-model="config.command" id="field-command" />
@@ -15,13 +19,10 @@
         <textarea v-model="config.defaultDescription" id="field-default-description" />
       </div>
 
-      <button type="submit" class="save-button" :disabled="submitting">
-        <span v-if="!submitting">{{ $t("configForm.save") }}</span>
-        <img v-if="submitting" src="/spinner.webp" class="spinner" />
-      </button>
+      <button type="submit" class="save-button" v-bind:disabled="saving">{{ $t("configForm.save") }}</button>
       <p v-if="error">{{ $t("error") }}</p>
     </form>
-    <ul class="games-list">
+    <ul v-if="!loading" class="games-list">
       <li
         v-for="(gameDescription, index) in config.gameDescriptions"
         :key="`gameDescription-${index}`"
@@ -68,14 +69,15 @@ export default class ConfigForm extends Vue {
     gameDescriptions: [],
   };
   public showAddModal = false;
-  public loaded = false;
-  public submitting = false;
+  public loading = true;
+  public saving = false;
   public error = false;
+  public showSavedNotification = false;
 
   public async mounted() {
     try {
       this.config = await getConfig();
-      this.loaded = true;
+      this.loading = false;
     } catch (error) {
       console.error(error);
     }
@@ -112,16 +114,16 @@ export default class ConfigForm extends Vue {
   private async saveConfig() {
     try {
       this.error = false;
-      this.submitting = true;
-      await Promise.all([
-        postConfig(this.config),
-        new Promise((resolve) => setTimeout(resolve, 1000)),
-      ]);
+      this.saving = true;
+      await postConfig(this.config);
+      this.saving = false;
+      this.showSavedNotification = true;
+      await new Promise((resolve) => setTimeout(resolve, 2000));
+      this.showSavedNotification = false;
     } catch (error) {
       console.error(error);
       this.error = true;
-    } finally {
-      this.submitting = false;
+      this.saving = false;
     }
   }
 }
@@ -172,7 +174,7 @@ export default class ConfigForm extends Vue {
 .save-button {
   color: white;
   background-color: #45bd5f;
-  border: none;
+  border: 0.1rem solid #45bd5f;
 }
 .save-button:hover {
   color: #45bd5f;
@@ -181,8 +183,8 @@ export default class ConfigForm extends Vue {
 }
 .save-button[disabled] {
   color: white;
-  background-color: #45bd5f;
-  border: none;
+  background-color: #6c757d;
+  border: 0.1rem solid #6c757d;
   cursor: default;
 }
 .action-button {
@@ -197,5 +199,14 @@ export default class ConfigForm extends Vue {
 .spinner {
   width: 3rem;
   height: 3rem;
+}
+.notification {
+  position: absolute;
+  margin: 0rem;
+  right: 10rem;
+  padding: 1rem;
+  background-color: #45bd5f;
+  color: white;
+  border-radius: 0.5rem;
 }
 </style>

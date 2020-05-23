@@ -11,6 +11,7 @@ export const locales = {
       description: "Description",
       delete: "Delete",
       add: "Add",
+      saved: "Changes saved",
     },
     gameBox: {
       edit: "Edit",
@@ -33,6 +34,7 @@ export const locales = {
       description: "Description",
       delete: "Supprimer",
       add: "Ajouter",
+      saved: "Changements sauvegardés",
     },
     gameBox: {
       edit: "Modifier",
