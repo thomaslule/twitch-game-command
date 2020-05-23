@@ -145,6 +145,8 @@ export default class ConfigForm extends Vue {
   display: flex;
   width: 20rem;
   height: 12rem;
+  margin-right: 1rem;
+  margin-bottom: 1rem;
   border: 0.1rem solid rgb(108, 117, 125);
   border-radius: 0.5rem;
   text-align: center;
