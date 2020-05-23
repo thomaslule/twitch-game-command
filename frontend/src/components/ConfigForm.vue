@@ -1,9 +1,11 @@
 <template>
   <div class="config-form">
-    <div v-if="loading || saving" class="notification">
-      <img src="/spinner.webp" class="spinner" />
+    <div class="notification-container">
+      <div v-if="loading || saving" class="notification">
+        <img src="/spinner.webp" class="spinner" />
+      </div>
+      <div v-if="showSavedNotification" class="notification">{{ $t("configForm.saved") }}</div>
     </div>
-    <div v-if="showSavedNotification" class="notification">{{ $t("configForm.saved") }}</div>
     <form v-if="!loading" v-on:submit.prevent="onSubmitMainConfig" class="main-config">
       <div class="field-group">
         <label v-bind:for="_uid + '-command'">{{ $t("configForm.command") }}</label>
@@ -170,10 +172,16 @@ export default class ConfigForm extends Vue {
   width: 3rem;
   height: 3rem;
 }
-.notification {
+.notification-container {
   position: absolute;
-  margin: 0rem;
-  right: 10rem;
+  width: 100%;
+  max-width: 120rem;
+  display: flex;
+  justify-content: flex-end;
+}
+.notification {
+  margin-top: 2rem;
+  margin-right: 5rem;
   padding: 1rem;
   background-color: rgb(69, 189, 95);
   color: rgb(255, 255, 255);
