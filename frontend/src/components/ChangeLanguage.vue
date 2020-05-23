@@ -26,14 +26,14 @@ export default class ChangeLanguage extends Vue {
 
 <style scoped>
 .form {
-  padding: 20px;
+  padding: 2rem;
 }
 .label {
   color: white;
-  margin-right: 10px;
+  margin-right: 1rem;
 }
 .select {
   border-radius: 0.5rem;
-  padding: 5px;
+  padding: 0.5rem;
 }
 </style>

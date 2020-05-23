@@ -50,16 +50,16 @@ export default class GameBox extends Vue {
 
 <style scoped>
 .game-box {
-  margin: 10px;
-  padding: 10px;
-  border: 1px solid #6c757d;
+  margin: 1rem;
+  padding: 1rem;
+  border: 0.1rem solid #6c757d;
   border-radius: 0.5rem;
-  width: 200px;
+  width: 20rem;
   text-align: center;
 }
 .game-box button {
-  margin-right: 5px;
-  margin-bottom: 5px;
+  margin-right: 0.5rem;
+  margin-bottom: 0.5rem;
   border-radius: 0.5rem;
   padding: 0.5rem 1rem;
   cursor: pointer;
@@ -68,7 +68,7 @@ export default class GameBox extends Vue {
 .action-button {
   background-color: transparent;
   color: #6c757d;
-  border: 1px solid #6c757d;
+  border: 0.1rem solid #6c757d;
 }
 .action-button:hover {
   background-color: #6c757d;

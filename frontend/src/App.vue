@@ -20,8 +20,12 @@ export default class App extends Vue {}
 * {
   box-sizing: border-box;
 }
+html {
+  font-size: 62.5%;
+}
 body {
-  margin: 0px;
+  margin: 0rem;
+  font-size: 160%;
 }
 #app {
   font-family: Avenir, Helvetica, Arial, sans-serif;

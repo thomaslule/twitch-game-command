@@ -16,10 +16,10 @@ export default class Logout extends Vue {
 
 <style scoped>
 .button {
-  margin: 20px 20px 20px auto;
+  margin: 2rem 2rem 2rem auto;
   color: white;
   background-color: transparent;
-  border: 1px solid white;
+  border: 0.1rem solid white;
   border-radius: 0.5rem;
   padding: 0.375rem 0.75rem;
   cursor: pointer;

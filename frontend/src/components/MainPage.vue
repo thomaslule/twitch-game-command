@@ -48,7 +48,7 @@ export default class MainPage extends Vue {
 }
 .size-restrain {
   width: 100%;
-  max-width: 1200px;
+  max-width: 120rem;
   display: flex;
   align-items: center;
 }

@@ -121,7 +121,7 @@ export default class ConfigForm extends Vue {
 <style scoped>
 .confirm-form {
   display: flex;
-  margin: 20px;
+  margin: 2rem;
   width: 100%;
 }
 .column-submit {
@@ -131,7 +131,7 @@ export default class ConfigForm extends Vue {
   width: 80%;
 }
 .field-group {
-  margin-bottom: 20px;
+  margin-bottom: 2rem;
 }
 .game-group {
   display: flex;
@@ -141,23 +141,23 @@ export default class ConfigForm extends Vue {
 }
 .confirm-form ul {
   list-style-type: none;
-  padding: 0px;
+  padding: 0rem;
 }
 .confirm-form input {
   display: block;
-  margin-bottom: 5px;
-  padding: 5px;
+  margin-bottom: 0.5rem;
+  padding: 0.5rem;
 }
 .confirm-form textarea {
   display: block;
   width: 80%;
-  height: 50px;
-  padding: 5px;
+  height: 5rem;
+  padding: 0.5rem;
   font-family: Arial;
 }
 .confirm-form button {
-  margin-right: 5px;
-  margin-bottom: 5px;
+  margin-right: 0.5rem;
+  margin-bottom: 0.5rem;
   border-radius: 0.5rem;
   padding: 0.5rem 1rem;
   cursor: pointer;
@@ -171,7 +171,7 @@ export default class ConfigForm extends Vue {
 .save-button:hover {
   color: #45bd5f;
   background-color: white;
-  border: 1px solid #45bd5f;
+  border: 0.1rem solid #45bd5f;
 }
 .save-button[disabled] {
   color: white;
@@ -182,14 +182,14 @@ export default class ConfigForm extends Vue {
 .action-button {
   background-color: transparent;
   color: #6c757d;
-  border: 1px solid #6c757d;
+  border: 0.1rem solid #6c757d;
 }
 .action-button:hover {
   background-color: #6c757d;
   color: white;
 }
 .spinner {
-  width: 30px;
-  height: 30px;
+  width: 3rem;
+  height: 3rem;
 }
 </style>

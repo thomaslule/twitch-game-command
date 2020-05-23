@@ -55,7 +55,7 @@ export default class Login extends Vue {
 .login-container {
   display: flex;
   justify-content: center;
-  margin-top: 50px;
+  margin-top: 5rem;
   width: 100%;
 }
 .login-container a {
@@ -70,6 +70,6 @@ export default class Login extends Vue {
 .login-container a:hover {
   color: #b151e6;
   background-color: white;
-  border: 1px solid #b151e6;
+  border: 0.1rem solid #b151e6;
 }
 </style>

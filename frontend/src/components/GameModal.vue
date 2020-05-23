@@ -63,16 +63,16 @@ export default class GameModal extends Vue {
   vertical-align: middle;
 }
 .modal-container {
-  width: 300px;
-  margin: 0px auto;
-  padding: 20px 30px;
+  width: 30rem;
+  margin: 0rem auto;
+  padding: 2rem 3rem;
   background-color: #fff;
   border-radius: 0.5rem;
-  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.33);
+  box-shadow: 0 0.2rem 0.8rem rgba(0, 0, 0, 0.33);
 }
 .game-modal button {
-  margin-right: 5px;
-  margin-bottom: 5px;
+  margin-right: 0.5rem;
+  margin-bottom: 0.5rem;
   border-radius: 0.5rem;
   padding: 0.5rem 1rem;
   cursor: pointer;
@@ -81,7 +81,7 @@ export default class GameModal extends Vue {
 .action-button {
   background-color: transparent;
   color: #6c757d;
-  border: 1px solid #6c757d;
+  border: 0.1rem solid #6c757d;
 }
 .action-button:hover {
   background-color: #6c757d;

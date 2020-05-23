@@ -132,11 +132,11 @@ export default class GameField extends Vue {
 <style>
 .game-field {
   display: block;
-  margin-bottom: 5px;
+  margin-bottom: 0.5rem;
 }
 
 .game-field input {
-  padding: 5px;
+  padding: 0.5rem;
 }
 
 .autocomplete-results {
@@ -144,15 +144,15 @@ export default class GameField extends Vue {
   padding: 0;
   margin: 0;
   background-color: white;
-  border: 1px solid #eeeeee;
-  max-height: 120px;
-  width: 240px;
+  border: 0.1rem solid #eeeeee;
+  max-height: 12rem;
+  width: 24rem;
   overflow: auto;
 }
 
 .autocomplete-result {
   list-style: none;
-  padding: 5px;
+  padding: 0.5rem;
   cursor: pointer;
 }
 
