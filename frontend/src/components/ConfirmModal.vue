@@ -1,9 +1,8 @@
 <template>
-  <div class="game-modal">
+  <div class="confirm-modal">
     <div class="modal-wrapper">
       <form class="modal-container" v-on:submit.prevent="confirm">
-        <GameField v-model="value.game" />
-        <textarea v-model="value.description" v-bind:placeholder="$t('configForm.description')" />
+        <p>{{ question }}</p>
         <div class="action-buttons">
           <button type="button" v-on:click="cancel" class="action-button">{{ $t("cancel") }}</button>
           <button type="submit" class="action-button">{{ $t("confirm") }}</button>
@@ -23,12 +22,9 @@ import { GameDescription } from "../api";
     GameField,
   },
 })
-export default class GameModal extends Vue {
+export default class ConfirmModal extends Vue {
   @Prop()
-  public gameDescription!: GameDescription;
-  public value = this.gameDescription
-    ? { ...this.gameDescription }
-    : { game: "", description: "" };
+  public question!: string;
 
   @Emit("cancel")
   public cancel() {
@@ -36,13 +32,13 @@ export default class GameModal extends Vue {
   }
   @Emit("confirm")
   public confirm() {
-    return this.value;
+    return undefined;
   }
 }
 </script>
 
 <style scoped>
-.game-modal {
+.confirm-modal {
   position: fixed;
   z-index: 9999;
   top: 0;
@@ -65,7 +61,7 @@ export default class GameModal extends Vue {
   border-radius: 0.5rem;
   box-shadow: 0 0.2rem 0.8rem rgba(0, 0, 0, 0.33);
 }
-.game-modal button {
+.confirm-modal button {
   margin-right: 0.5rem;
   margin-bottom: 0.5rem;
   border-radius: 0.5rem;

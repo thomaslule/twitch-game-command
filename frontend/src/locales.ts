@@ -15,12 +15,11 @@ export const locales = {
     gameBox: {
       edit: "Edit",
       remove: "Remove",
-    },
-    gameModal: {
-      cancel: "Cancel",
-      confirm: "OK",
+      areyousure: "Remove {game} ?",
     },
     error: "Something went wrong",
+    cancel: "Cancel",
+    confirm: "OK",
   },
   fr: {
     changeLanguage: "Langue",
@@ -38,11 +37,10 @@ export const locales = {
     gameBox: {
       edit: "Modifier",
       remove: "Supprimer",
-    },
-    gameModal: {
-      cancel: "Annuler",
-      confirm: "OK",
+      areyousure: "Supprimer {game} ?",
     },
     error: "Une erreur est survenue",
+    cancel: "Cancel",
+    confirm: "OK",
   },
 };

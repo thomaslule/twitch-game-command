@@ -2,14 +2,24 @@
   <div class="game-box">
     <p>{{ value.game }}</p>
     <div>
-      <button type="button" v-on:click="edit" class="action-button">{{ $t("gameBox.edit") }}</button>
-      <button type="button" v-on:click="remove" class="action-button">{{ $t("gameBox.remove") }}</button>
+      <button type="button" v-on:click="onClickEdit" class="action-button">{{ $t("gameBox.edit") }}</button>
+      <button
+        type="button"
+        v-on:click="onClickRemove"
+        class="action-button"
+      >{{ $t("gameBox.remove") }}</button>
     </div>
     <GameModal
       v-if="showModal"
       v-bind:gameDescription="value"
       v-on:cancel="onModalCancel"
       v-on:confirm="onModalConfirm"
+    />
+    <ConfirmModal
+      v-if="showConfirmDeleteModal"
+      v-on:cancel="onDeleteModalCancel"
+      v-on:confirm="onDeleteModalConfirm"
+      v-bind:question="$t('gameBox.areyousure', { game: value.game })"
     />
   </div>
 </template>
@@ -18,23 +28,26 @@
 import { Component, Vue, Prop } from "vue-property-decorator";
 import { GameDescription } from "../api";
 import GameModal from "./GameModal.vue";
+import ConfirmModal from "./ConfirmModal.vue";
 
 @Component({
   components: {
     GameModal,
+    ConfirmModal,
   },
 })
 export default class GameBox extends Vue {
   @Prop()
   public value!: GameDescription;
   public showModal = false;
+  public showConfirmDeleteModal = false;
 
-  public edit() {
+  public onClickEdit() {
     this.showModal = true;
   }
 
-  public remove() {
-    this.$emit("remove");
+  public onClickRemove() {
+    this.showConfirmDeleteModal = true;
   }
 
   public onModalCancel() {
@@ -44,6 +57,14 @@ export default class GameBox extends Vue {
   public onModalConfirm(gameDescription: GameDescription) {
     this.showModal = false;
     this.$emit("input", gameDescription);
+  }
+
+  public onDeleteModalCancel() {
+    this.showConfirmDeleteModal = false;
+  }
+
+  public onDeleteModalConfirm() {
+    this.$emit("remove");
   }
 }
 </script>
