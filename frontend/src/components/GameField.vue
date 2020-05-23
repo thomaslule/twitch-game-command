@@ -4,7 +4,7 @@
       :value="value"
       v-on:input="updateValue($event.target.value)"
       required
-      v-bind:placeholder="$t('configForm.game')"
+      v-bind="id ? { id } : {}"
       @keydown.down.prevent="onArrowDown"
       @keydown.up.prevent="onArrowUp"
       @keydown.enter.prevent="onEnter"
@@ -32,6 +32,8 @@ import { getClientId } from "../api";
 export default class GameField extends Vue {
   @Prop()
   public value!: string;
+  @Prop()
+  public id?: string;
   public clientId?: string;
   public autocompleteList: string[] = [];
   public autocompleteVisible = false;

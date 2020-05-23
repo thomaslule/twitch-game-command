@@ -1,10 +1,10 @@
 <template>
   <form class="form">
-    <label for="change-language-select" class="label">{{ $t("changeLanguage") }}</label>
+    <label v-bind:for="_uid + '-language'" class="label">{{ $t("changeLanguage") }}</label>
     <select
       v-model="$i18n.locale"
       v-on:change="onChange"
-      id="change-language-select"
+      v-bind:id="_uid + '-language'"
       class="select"
     >
       <option v-for="(lang, i) in $i18n.availableLocales" :key="`Lang${i}`" :value="lang">{{ lang }}</option>

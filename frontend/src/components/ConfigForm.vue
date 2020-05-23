@@ -6,17 +6,13 @@
     <div v-if="showSavedNotification" class="notification">{{ $t("configForm.saved") }}</div>
     <form v-if="!loading" v-on:submit.prevent="onSubmitMainConfig" class="main-config">
       <div class="field-group">
-        <label for="field-command">{{ $t("configForm.command") }}</label>
-        <input v-model="config.command" id="field-command" />
+        <label v-bind:for="_uid + '-command'">{{ $t("configForm.command") }}</label>
+        <input v-model="config.command" v-bind:id="_uid + '-command'" />
       </div>
 
       <div class="field-group">
-        <label for="field-default-description">
-          {{
-          $t("configForm.defaultDescription")
-          }}
-        </label>
-        <textarea v-model="config.defaultDescription" id="field-default-description" />
+        <label v-bind:for="_uid + '-default-description'">{{ $t("configForm.defaultDescription") }}</label>
+        <textarea v-model="config.defaultDescription" v-bind:id="_uid + '-default-description'" />
       </div>
 
       <button type="submit" v-bind:disabled="saving">{{ $t("configForm.save") }}</button>

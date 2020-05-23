@@ -2,8 +2,14 @@
   <div class="modal-background">
     <div class="modal-wrapper">
       <form class="game-modal modal-container" v-on:submit.prevent="confirm">
-        <GameField v-model="value.game" />
-        <textarea v-model="value.description" v-bind:placeholder="$t('configForm.description')" />
+        <div class="field-group">
+          <label v-bind:for="_uid + '-game'">{{ $t("gameModal.game") }}</label>
+          <GameField v-model="value.game" v-bind:id="_uid + '-game'" />
+        </div>
+        <div class="field-group">
+          <label v-bind:for="_uid + '-description'">{{ $t("gameModal.description") }}</label>
+          <textarea v-model="value.description" v-bind:id="_uid + '-description'" />
+        </div>
         <div class="action-buttons">
           <button type="button" v-on:click="cancel">{{ $t("cancel") }}</button>
           <button type="submit">{{ $t("confirm") }}</button>
@@ -42,6 +48,9 @@ export default class GameModal extends Vue {
 </script>
 
 <style scoped>
+.field-group {
+  margin-bottom: 2rem;
+}
 .action-buttons {
   text-align: right;
 }
