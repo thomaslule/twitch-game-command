@@ -1,3 +1,4 @@
+import { config } from "dotenv";
 import { getCommandHandler } from "./getCommandHandler";
 import { HttpServer } from "./HttpServer";
 import { getOptions } from "./Options";
@@ -5,7 +6,8 @@ import { Store } from "./Store";
 import { Twitch } from "./Twitch";
 
 async function start() {
-  const options = await getOptions();
+  config();
+  const options = getOptions();
 
   const store = new Store();
   const server = new HttpServer(store, options);
