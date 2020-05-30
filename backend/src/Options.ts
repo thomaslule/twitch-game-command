@@ -25,7 +25,9 @@ function getEnvOptions(): any {
 }
 
 function checkOptionsAreProvided(options: any) {
-  const missingOptions = optionKeys.filter((key) => options[key] === undefined);
+  const missingOptions = optionKeys.filter(
+    (key) => options[key] === undefined || options[key].length === 0
+  );
   if (missingOptions.length > 0) {
     throw new Error(
       `The following options are missing: ${missingOptions.join(", ")}`
