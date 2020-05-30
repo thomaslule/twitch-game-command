@@ -5,7 +5,7 @@ export function getCommandHandler(twitch: Twitch, store: Store) {
   return async (message: string) => {
     try {
       const config = await store.get();
-      if (config.command.length > 0 && message.startsWith(config.command)) {
+      if (config.command.length > 0 && isCommand(config.command, message)) {
         const currentGame = await twitch.getCurrentGame();
         const gameDescription = config.gameDescriptions.find(
           (description) => description.game === currentGame
@@ -20,4 +20,8 @@ export function getCommandHandler(twitch: Twitch, store: Store) {
       console.error(err);
     }
   };
+}
+
+function isCommand(command: string, message: string) {
+  return message === command || message.startsWith(command + " ");
 }
