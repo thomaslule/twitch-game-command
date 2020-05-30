@@ -58,5 +58,8 @@ jobs:
             --output type=image,name=${{ steps.prepare.outputs.docker_image }},push=true \
             --platform ${{ steps.prepare.outputs.docker_platforms }} \
             --tag "${{ steps.prepare.outputs.docker_image }}:latest" \
+            --tag "${{ steps.prepare.outputs.docker_image }}:1" \
+            --tag "${{ steps.prepare.outputs.docker_image }}:1.0" \
+            --tag "${{ steps.prepare.outputs.docker_image }}:1.0.0" \
             --tag "${{ steps.prepare.outputs.docker_image }}:${{ steps.prepare.outputs.hash }}" \
             --file Dockerfile .
