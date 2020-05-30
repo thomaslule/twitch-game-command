@@ -1,0 +1,21 @@
+{
+  "name": "twitch-game-command",
+  "version": "1.0.0",
+  "description": "",
+  "main": "backend/dist/index.js",
+  "scripts": {
+    "build": "node build.js",
+    "start": "cd backend && npm start",
+    "backend:prune": "cd backend && npm prune --production"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/thomaslule/twitch-game-command.git"
+  },
+  "author": "thomaslule",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/thomaslule/twitch-game-command/issues"
+  },
+  "homepage": "https://github.com/thomaslule/twitch-game-command#readme"
+}
