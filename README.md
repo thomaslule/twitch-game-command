@@ -6,19 +6,25 @@ A twitch bot that answers to a command **depending on the current game being pla
 
 ## Running it on your personal computer
 
-- You must first install [node](https://nodejs.org/)
-- Download this repository (use the "clone or download" button above).
+- Download the last version on the [releases page](https://github.com/thomaslule/twitch-game-command/releases).
 - Unzip it.
-- Open a terminal window inside the folder (how to do that? learn it for [Windows](https://www.addictivetips.com/windows-tips/open-powershell-in-a-specific-location/) or [Mac](https://lifehacker.com/launch-an-os-x-terminal-window-from-a-specific-folder-1466745514))
-- Write `npm run build`, ENTER, and wait for it to finish. It may take some time.
-- In the `backend` folder, you'll find a file named `.env`. Open it with your notepad. Here, follow the instruction to put all the configuration the bot needs (like your channel name and the bot account).
+- Open the file named `.env` with your notepad.
+- Follow the instructions to put all the configuration the bot needs (like your channel name and the bot account).
+- Launch the executable file (Windows will probably be suspicious because the file isn't signed). If the window closes immediately, there is probably an error in the `.env` file. You can launch the executable from a terminal window to read the error.
 
-The installation is done! You can go back to the terminal, write `npm start`, ENTER. Now it's running.
+Now that the bot is started, you can head to http://localhost:3000 in your browser to begin writing your own commands.
 
-You can head to http://localhost:3000 in your browser to begin writing your own commands.
-
-The bot will be active as long as your terminal window stays open.
+The bot will be active as long as the window stays open.
 
 ## Deploying it to a server
 
-You can clone the repository and follow the instructions above (or provide the config through environment variables) but the preferred way is to use the [docker image](https://hub.docker.com/repository/docker/thomaslule/twitch-game-command).
+The preferred way is to use the [docker image](https://hub.docker.com/repository/docker/thomaslule/twitch-game-command).
+
+Or to manually build the bot from the source:
+
+```bash
+npm run build
+cd backend
+cp .env.template .env # then fill the .env file
+npm start
+```
