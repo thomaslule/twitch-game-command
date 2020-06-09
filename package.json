@@ -1,6 +1,6 @@
 {
   "name": "twitch-game-command",
-  "version": "1.0.0",
+  "version": "1.0.1",
   "description": "",
   "main": "backend/dist/index.js",
   "scripts": {
