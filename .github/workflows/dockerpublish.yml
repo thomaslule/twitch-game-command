@@ -2,29 +2,19 @@ name: Docker
 
 on:
   push:
-    # Publish `master` as Docker `latest` image.
-    branches:
-      - master
-
-    # Publish `v1.2.3` tags as releases.
     tags:
       - v*
-
-  # Run tests for any PRs.
-  pull_request:
-
 env:
   IMAGE_NAME: twitch-game-command
 
 jobs:
-  # Push image to Docker Hub.
-  # See also https://docs.docker.com/docker-hub/builds/
   push:
     runs-on: ubuntu-latest
     if: github.event_name == 'push'
 
     steps:
-      - uses: actions/checkout@v2
+      - name: Checkout code
+        uses: actions/checkout@v2
 
       - name: Set up Docker Buildx
         if: success()
@@ -61,5 +51,4 @@ jobs:
             --tag "${{ steps.prepare.outputs.docker_image }}:1" \
             --tag "${{ steps.prepare.outputs.docker_image }}:1.0" \
             --tag "${{ steps.prepare.outputs.docker_image }}:1.0.0" \
-            --tag "${{ steps.prepare.outputs.docker_image }}:${{ steps.prepare.outputs.hash }}" \
             --file Dockerfile .
