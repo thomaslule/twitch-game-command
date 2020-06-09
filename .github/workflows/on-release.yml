@@ -1,0 +1,125 @@
+name: Release
+
+on:
+  push:
+    tags:
+      - v*
+
+jobs:
+  docker:
+    name: Build and push the docker image
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v2
+
+      - name: Parse the semver tag
+        id: semver
+        run: |
+          semver=${GITHUB_REF#refs/tags/v}
+          regex='(.+)\.(.+)\.(.+)'
+          [[ $semver =~ $regex ]]
+          echo "::set-output name=major::${BASH_REMATCH[1]}"
+          echo "::set-output name=minor::${BASH_REMATCH[1]}.${BASH_REMATCH[2]}"
+          echo "::set-output name=patch::${BASH_REMATCH[1]}.${BASH_REMATCH[2]}.${BASH_REMATCH[3]}"
+
+      - name: Setup docker buildx
+        id: buildx
+        uses: crazy-max/ghaction-docker-buildx@v1
+        with:
+          buildx-version: latest
+
+      - name: Available platforms
+        run: echo ${{ steps.buildx.outputs.platforms }}
+
+      - name: Prepare
+        id: prepare
+        run: |
+          echo ::set-output name=docker_platforms::linux/amd64,linux/arm/v7
+          echo ::set-output name=docker_username::thomaslule
+          echo ::set-output name=docker_image::thomaslule/twitch-game-command
+
+      - name: Login to docker
+        env:
+          DOCKER_PASSWORD: ${{ secrets.DOCKER_PASSWORD }}
+        run: |
+          echo "${DOCKER_PASSWORD}" | docker login --username "${{ steps.prepare.outputs.docker_username }}" --password-stdin
+
+      - name: Build-tag-push
+        run: |
+          docker buildx build \
+            --output type=image,name=${{ steps.prepare.outputs.docker_image }},push=true \
+            --platform ${{ steps.prepare.outputs.docker_platforms }} \
+            --tag "${{ steps.prepare.outputs.docker_image }}:latest" \
+            --tag "${{ steps.prepare.outputs.docker_image }}:${{ steps.semver.outputs.major }}" \
+            --tag "${{ steps.prepare.outputs.docker_image }}:${{ steps.semver.outputs.minor }}" \
+            --tag "${{ steps.prepare.outputs.docker_image }}:${{ steps.semver.outputs.patch }}" \
+            --file Dockerfile .
+
+  release:
+    name: Create the release
+    runs-on: ubuntu-latest
+    outputs:
+      upload_url: ${{ steps.release.outputs.upload_url }}
+    steps:
+      - name: Create the release
+        id: release
+        uses: actions/create-release@v1
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        with:
+          tag_name: ${{ github.ref }}
+          release_name: Release ${{ github.ref }}
+
+  package:
+    name: Package for ${{ matrix.target }}
+    runs-on: ubuntu-latest
+    needs: release
+    strategy:
+      matrix:
+        target: [linux, macos, windows]
+        include:
+          - target: linux
+            pkg-arg: node12-linux-x64
+            executable: twitch-game-command
+            zip-name: twitch-game-command-linux.zip
+          - target: macos
+            pkg-arg: node12-macos-x64
+            executable: twitch-game-command
+            zip-name: twitch-game-command-macos.zip
+          - target: windows
+            pkg-arg: node12-win-x64
+            executable: twitch-game-command.exe
+            zip-name: twitch-game-command-windows.zip
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v2
+
+      - name: Setup Node
+        uses: actions/setup-node@v1
+        with:
+          node-version: 12.x
+
+      - name: Build
+        run: npm run build
+
+      - name: Package
+        run: |
+          cd backend
+          npm run pkg -- -t ${{ matrix.pkg-arg }}
+
+      - name: Zip
+        run: |
+          mv backend/.env.template .env
+          mv backend/${{ matrix.executable }} .
+          zip ${{ matrix.zip-name }} ${{ matrix.executable }} .env
+
+      - name: Upload package to release
+        uses: actions/upload-release-asset@v1
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        with:
+          upload_url: ${{ needs.release.outputs.upload_url }}
+          asset_path: ./${{ matrix.zip-name }}
+          asset_name: ${{ matrix.zip-name }}
+          asset_content_type: application/zip
