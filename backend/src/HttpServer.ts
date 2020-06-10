@@ -4,6 +4,7 @@ import Koa from "koa";
 import bodyParser from "koa-bodyparser";
 import route from "koa-route";
 import serve from "koa-static";
+import { join } from "path";
 import { getAuthenticationMiddleware } from "./getAuthenticationMiddleware";
 import { Options } from "./Options";
 import { Store } from "./Store";
@@ -15,7 +16,7 @@ export class HttpServer {
     this.app.use(cors());
     this.app.use(bodyParser());
 
-    this.app.use(serve("./public"));
+    this.app.use(serve(join(__dirname, "..", "public")));
 
     this.app.use(
       route.get("/api/clientId", (context) => {

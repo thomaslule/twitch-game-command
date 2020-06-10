@@ -46,5 +46,8 @@
     "node-fetch": "^2.6.0",
     "tmi.js": "^1.5.0",
     "twitch": "^4.0.9"
+  },
+  "pkg": {
+    "assets": "public/**/*"
   }
 }
