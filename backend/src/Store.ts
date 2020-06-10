@@ -1,7 +1,9 @@
 import { promises } from "fs";
+import { join } from "path";
 import { Config } from "./Config";
 
-const saveFile = "./stored/save";
+const saveDir = join(process.cwd(), "stored");
+const saveFile = join(saveDir, "save");
 
 export class Store {
   private cache: Config | undefined;
@@ -15,6 +17,7 @@ export class Store {
 
   public async set(data: Config) {
     this.cache = data;
+    await this.createDirIfNotExists();
     await promises.writeFile(saveFile, JSON.stringify(this.cache), "utf8");
   }
 
@@ -29,5 +32,11 @@ export class Store {
         gameDescriptions: [],
       });
     }
+  }
+
+  private async createDirIfNotExists() {
+    await promises.mkdir(saveDir, {
+      recursive: true,
+    });
   }
 }
