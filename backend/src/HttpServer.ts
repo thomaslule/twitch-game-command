@@ -57,7 +57,7 @@ export class HttpServer {
 
     this.app.use(
       route.get("/api/config", async (context) => {
-        context.body = await store.get();
+        context.body = store.get();
       })
     );
   }

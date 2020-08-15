@@ -8,16 +8,17 @@ const saveFile = join(saveDir, "save");
 export class Store {
   private cache: Config | undefined;
 
-  public async get(): Promise<Config> {
-    if (this.cache === undefined) {
-      await this.initCache();
-    }
+  public async init() {
+    await this.createDirIfNotExists();
+    await this.initCache();
+  }
+
+  public get(): Config {
     return this.cache!;
   }
 
   public async set(data: Config) {
     this.cache = data;
-    await this.createDirIfNotExists();
     await promises.writeFile(saveFile, JSON.stringify(this.cache), "utf8");
   }
 

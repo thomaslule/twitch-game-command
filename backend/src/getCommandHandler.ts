@@ -4,7 +4,7 @@ import { Twitch } from "./Twitch";
 export function getCommandHandler(twitch: Twitch, store: Store) {
   return async (message: string) => {
     try {
-      const config = await store.get();
+      const config = store.get();
       if (config.command.length > 0 && isCommand(config.command, message)) {
         const currentGame = await twitch.getCurrentGame();
         const gameDescription = config.gameDescriptions.find(

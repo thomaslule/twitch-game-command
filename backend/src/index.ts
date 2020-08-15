@@ -10,6 +10,7 @@ async function start() {
   const options = getOptions();
 
   const store = new Store();
+  await store.init();
   const server = new HttpServer(store, options);
   const twitch = new Twitch(options);
 
