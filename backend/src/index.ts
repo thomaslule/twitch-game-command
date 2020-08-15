@@ -11,6 +11,7 @@ async function start() {
 
   const store = new Store({
     command: "",
+    cooldown: 0,
     defaultDescription: "",
     gameDescriptions: [],
   });

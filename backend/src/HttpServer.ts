@@ -36,6 +36,7 @@ export class HttpServer {
       route.post("/api/config", async (context) => {
         const schema = Joi.object({
           command: Joi.string().allow(""),
+          cooldown: Joi.number().integer().min(0),
           defaultDescription: Joi.string().allow(""),
           gameDescriptions: Joi.array().items(
             Joi.object({

@@ -48,6 +48,7 @@ async function handleError(res: Response) {
 
 export interface Config {
   command: string;
+  cooldown: number;
   defaultDescription: string;
   gameDescriptions: GameDescription[];
 }

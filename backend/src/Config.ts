@@ -1,5 +1,6 @@
 export interface Config {
   command: string;
+  cooldown: number;
   defaultDescription: string;
   gameDescriptions: GameDescription[];
 }

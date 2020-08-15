@@ -6,6 +6,7 @@ export const locales = {
     configForm: {
       save: "Save",
       command: "Command",
+      cooldown: "Cooldown (seconds)",
       defaultDescription: "Default description",
       delete: "Delete",
       add: "Add",
@@ -31,6 +32,7 @@ export const locales = {
     configForm: {
       save: "Sauvegarder",
       command: "Commande",
+      cooldown: "Cooldown (secondes)",
       defaultDescription: "Description par défaut",
       game: "Jeu",
       description: "Description",

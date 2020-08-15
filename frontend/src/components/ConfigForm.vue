@@ -13,6 +13,11 @@
       </div>
 
       <div class="field-group">
+        <label v-bind:for="_uid + '-cooldown'">{{ $t("configForm.cooldown") }}</label>
+        <input v-model="config.cooldown" v-bind:id="_uid + '-cooldown'" />
+      </div>
+
+      <div class="field-group">
         <label v-bind:for="_uid + '-default-description'">{{ $t("configForm.defaultDescription") }}</label>
         <textarea v-model="config.defaultDescription" v-bind:id="_uid + '-default-description'" />
       </div>
@@ -57,6 +62,7 @@ import { Config, getConfig, postConfig, GameDescription } from "../api";
 export default class ConfigForm extends Vue {
   public config: Config = {
     command: "",
+    cooldown: 0,
     defaultDescription: "",
     gameDescriptions: [],
   };
