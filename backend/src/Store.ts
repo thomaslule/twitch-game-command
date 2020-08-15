@@ -28,7 +28,7 @@ export class Store {
     try {
       const json = await promises.readFile(saveFile, "utf8");
       const stored = JSON.parse(json);
-      const storedCompleted = { ...this.defaultValues, stored };
+      const storedCompleted = { ...this.defaultValues, ...stored };
       await this.set(storedCompleted);
     } catch (error) {
       await this.set(this.defaultValues);
