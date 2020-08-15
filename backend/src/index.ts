@@ -9,7 +9,11 @@ async function start() {
   config();
   const options = getOptions();
 
-  const store = new Store();
+  const store = new Store({
+    command: "",
+    defaultDescription: "",
+    gameDescriptions: [],
+  });
   await store.init();
   const server = new HttpServer(store, options);
   const twitch = new Twitch(options);

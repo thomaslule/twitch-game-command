@@ -8,6 +8,8 @@ const saveFile = join(saveDir, "save");
 export class Store {
   private cache: Config | undefined;
 
+  public constructor(private defaultValues: Config) {}
+
   public async init() {
     await this.createDirIfNotExists();
     await this.initCache();
@@ -25,13 +27,11 @@ export class Store {
   private async initCache() {
     try {
       const json = await promises.readFile(saveFile, "utf8");
-      this.cache = JSON.parse(json);
+      const stored = JSON.parse(json);
+      const storedCompleted = { ...this.defaultValues, stored };
+      await this.set(storedCompleted);
     } catch (error) {
-      await this.set({
-        command: "",
-        defaultDescription: "",
-        gameDescriptions: [],
-      });
+      await this.set(this.defaultValues);
     }
   }
 
