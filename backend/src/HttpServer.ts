@@ -1,10 +1,10 @@
-import Joi from "@hapi/joi";
 import cors from "@koa/cors";
 import Koa from "koa";
 import bodyParser from "koa-bodyparser";
 import route from "koa-route";
 import serve from "koa-static";
 import { join } from "path";
+import { validateConfig } from "./Config";
 import { getAuthenticationMiddleware } from "./getAuthenticationMiddleware";
 import { Options } from "./Options";
 import { Store } from "./Store";
@@ -34,18 +34,7 @@ export class HttpServer {
 
     this.app.use(
       route.post("/api/config", async (context) => {
-        const schema = Joi.object({
-          command: Joi.string().allow(""),
-          cooldown: Joi.number().integer().min(0),
-          defaultDescription: Joi.string().allow(""),
-          gameDescriptions: Joi.array().items(
-            Joi.object({
-              game: Joi.string(),
-              description: Joi.string().allow(""),
-            })
-          ),
-        });
-        const { error, value } = schema.validate(context.request.body);
+        const { error, value } = validateConfig(context.request.body);
         if (error) {
           context.body = { error: error.message };
           context.status = 422;

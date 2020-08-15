@@ -1,6 +1,6 @@
 import { promises } from "fs";
 import { join } from "path";
-import { Config } from "./Config";
+import { cleanConfig, Config, getDefaultConfig } from "./Config";
 
 const saveDir = join(process.cwd(), "stored");
 const saveFile = join(saveDir, "save");
@@ -28,10 +28,10 @@ export class Store {
     try {
       const json = await promises.readFile(saveFile, "utf8");
       const stored = JSON.parse(json);
-      const storedCompleted = { ...this.defaultValues, ...stored };
+      const storedCompleted = cleanConfig(stored);
       await this.set(storedCompleted);
     } catch (error) {
-      await this.set(this.defaultValues);
+      await this.set(getDefaultConfig());
     }
   }
 
