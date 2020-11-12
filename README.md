@@ -18,7 +18,7 @@ The bot will be active as long as the window stays open.
 
 ## Deploying it to a server
 
-The preferred way is to use the [docker image](https://hub.docker.com/repository/docker/thomaslule/twitch-game-command).
+The preferred way is to use the [docker image](https://hub.docker.com/r/thomaslule/twitch-game-command).
 
 Or to manually build the bot from the source:
 
